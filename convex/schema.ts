@@ -31,4 +31,14 @@ export default defineSchema({
     type: v.union(v.literal("income"), v.literal("expense")),
     color: v.string(),
   }).index("by_user_and_type", ["userId", "type"]),
+
+  goals: defineTable({
+    userId: v.id("users"),
+    title: v.string(),
+    targetAmount: v.number(),
+    currentAmount: v.number(),
+    emoji: v.string(),
+    deadline: v.optional(v.number()),
+    isCompleted: v.boolean(),
+  }).index("by_user", ["userId"]),
 });

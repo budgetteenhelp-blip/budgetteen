@@ -9,6 +9,7 @@ import AddTransactionDialog from "./_components/add-transaction-dialog.tsx";
 import TransactionList from "./_components/transaction-list.tsx";
 import SpendingChart from "./_components/spending-chart.tsx";
 import BalanceChart from "./_components/balance-chart.tsx";
+import GoalsSection from "./_components/goals-section.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { PlusIcon } from "lucide-react";
 
@@ -71,6 +72,8 @@ function IndexInner() {
           <BalanceChart />
           <SpendingChart />
         </div>
+
+        <GoalsSection />
 
         <TransactionList />
 

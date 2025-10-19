@@ -15,6 +15,7 @@ import type {
 } from "convex/server";
 import type * as analytics from "../analytics.js";
 import type * as categories from "../categories.js";
+import type * as goals from "../goals.js";
 import type * as transactions from "../transactions.js";
 import type * as users from "../users.js";
 
@@ -29,6 +30,7 @@ import type * as users from "../users.js";
 declare const fullApi: ApiFromModules<{
   analytics: typeof analytics;
   categories: typeof categories;
+  goals: typeof goals;
   transactions: typeof transactions;
   users: typeof users;
 }>;
