@@ -86,7 +86,7 @@ export default function Index() {
             <div className="space-y-2">
               <div className="text-6xl">💰</div>
               <h1 className="text-4xl font-bold text-orange-900 dark:text-orange-100">
-                Money Master
+                Budget Teen
               </h1>
               <p className="text-lg text-orange-700 dark:text-orange-300">
                 Track your money, reach your goals, level up your savings! 🚀
