@@ -1,0 +1,153 @@
+import { v } from "convex/values";
+import { mutation, query } from "./_generated/server";
+import { ConvexError } from "convex/values";
+
+export const add = mutation({
+  args: {
+    type: v.union(v.literal("income"), v.literal("expense")),
+    amount: v.number(),
+    category: v.string(),
+    emoji: v.string(),
+    description: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new ConvexError({
+        message: "User not logged in",
+        code: "UNAUTHENTICATED",
+      });
+    }
+
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_token", (q) =>
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
+      )
+      .unique();
+
+    if (!user) {
+      throw new ConvexError({
+        message: "User not found",
+        code: "NOT_FOUND",
+      });
+    }
+
+    // Create transaction
+    const transactionId = await ctx.db.insert("transactions", {
+      userId: user._id,
+      type: args.type,
+      amount: args.amount,
+      category: args.category,
+      emoji: args.emoji,
+      description: args.description,
+      date: Date.now(),
+    });
+
+    // Update user balance
+    const balanceChange =
+      args.type === "income" ? args.amount : -args.amount;
+    await ctx.db.patch(user._id, {
+      currentBalance: user.currentBalance + balanceChange,
+      totalIncome:
+        args.type === "income"
+          ? user.totalIncome + args.amount
+          : user.totalIncome,
+      totalExpenses:
+        args.type === "expense"
+          ? user.totalExpenses + args.amount
+          : user.totalExpenses,
+    });
+
+    return transactionId;
+  },
+});
+
+export const getRecent = query({
+  args: { limit: v.optional(v.number()) },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new ConvexError({
+        message: "User not logged in",
+        code: "UNAUTHENTICATED",
+      });
+    }
+
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_token", (q) =>
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
+      )
+      .unique();
+
+    if (!user) {
+      throw new ConvexError({
+        message: "User not found",
+        code: "NOT_FOUND",
+      });
+    }
+
+    const transactions = await ctx.db
+      .query("transactions")
+      .withIndex("by_user", (q) => q.eq("userId", user._id))
+      .order("desc")
+      .take(args.limit ?? 50);
+
+    return transactions;
+  },
+});
+
+export const deleteTransaction = mutation({
+  args: { id: v.id("transactions") },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new ConvexError({
+        message: "User not logged in",
+        code: "UNAUTHENTICATED",
+      });
+    }
+
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_token", (q) =>
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
+      )
+      .unique();
+
+    if (!user) {
+      throw new ConvexError({
+        message: "User not found",
+        code: "NOT_FOUND",
+      });
+    }
+
+    const transaction = await ctx.db.get(args.id);
+    if (!transaction || transaction.userId !== user._id) {
+      throw new ConvexError({
+        message: "Transaction not found",
+        code: "NOT_FOUND",
+      });
+    }
+
+    // Update user balance
+    const balanceChange =
+      transaction.type === "income"
+        ? -transaction.amount
+        : transaction.amount;
+    await ctx.db.patch(user._id, {
+      currentBalance: user.currentBalance + balanceChange,
+      totalIncome:
+        transaction.type === "income"
+          ? user.totalIncome - transaction.amount
+          : user.totalIncome,
+      totalExpenses:
+        transaction.type === "expense"
+          ? user.totalExpenses - transaction.amount
+          : user.totalExpenses,
+    });
+
+    await ctx.db.delete(args.id);
+  },
+});
