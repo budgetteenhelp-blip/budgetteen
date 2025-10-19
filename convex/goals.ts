@@ -1,6 +1,7 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { ConvexError } from "convex/values";
+import { internal } from "./_generated/api.js";
 
 export const getAll = query({
   args: {},
@@ -67,7 +68,7 @@ export const create = mutation({
       });
     }
 
-    return await ctx.db.insert("goals", {
+    const goalId = await ctx.db.insert("goals", {
       userId: user._id,
       title: args.title,
       targetAmount: args.targetAmount,
@@ -76,6 +77,19 @@ export const create = mutation({
       deadline: args.deadline,
       isCompleted: false,
     });
+
+    // Award XP for creating a goal
+    await ctx.scheduler.runAfter(0, internal.gamification.awardXP, {
+      userId: user._id,
+      amount: 25,
+      reason: "goal_created",
+    });
+
+    await ctx.scheduler.runAfter(0, internal.gamification.checkAndAwardAchievements, {
+      userId: user._id,
+    });
+
+    return goalId;
   },
 });
 
@@ -117,10 +131,33 @@ export const updateProgress = mutation({
 
     const newAmount = Math.max(0, goal.currentAmount + args.amount);
     const isCompleted = newAmount >= goal.targetAmount;
+    const wasCompleted = goal.isCompleted;
 
     await ctx.db.patch(args.goalId, {
       currentAmount: newAmount,
       isCompleted,
+    });
+
+    // Award XP for progress
+    if (args.amount > 0) {
+      await ctx.scheduler.runAfter(0, internal.gamification.awardXP, {
+        userId: user._id,
+        amount: 5,
+        reason: "goal_progress",
+      });
+    }
+
+    // Award bonus XP for completing goal
+    if (isCompleted && !wasCompleted) {
+      await ctx.scheduler.runAfter(0, internal.gamification.awardXP, {
+        userId: user._id,
+        amount: 100,
+        reason: "goal_completed",
+      });
+    }
+
+    await ctx.scheduler.runAfter(0, internal.gamification.checkAndAwardAchievements, {
+      userId: user._id,
     });
   },
 });

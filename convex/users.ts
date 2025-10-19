@@ -20,6 +20,15 @@ export const updateCurrentUser = mutation({
       )
       .unique();
     if (user !== null) {
+      // Initialize gamification fields for existing users if they don't have them
+      if (user.level === undefined) {
+        await ctx.db.patch(user._id, {
+          level: 1,
+          xp: 0,
+          currentStreak: 0,
+          longestStreak: 0,
+        });
+      }
       return user._id;
     }
     // If it's a new identity, create a new User.
@@ -30,6 +39,11 @@ export const updateCurrentUser = mutation({
       currentBalance: 0,
       totalIncome: 0,
       totalExpenses: 0,
+      level: 1,
+      xp: 0,
+      currentStreak: 0,
+      longestStreak: 0,
+      lastActivityDate: undefined,
     });
 
     // Create default categories for new users

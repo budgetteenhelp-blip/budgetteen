@@ -9,6 +9,11 @@ export default defineSchema({
     currentBalance: v.number(),
     totalIncome: v.number(),
     totalExpenses: v.number(),
+    level: v.optional(v.number()),
+    xp: v.optional(v.number()),
+    currentStreak: v.optional(v.number()),
+    longestStreak: v.optional(v.number()),
+    lastActivityDate: v.optional(v.number()),
   }).index("by_token", ["tokenIdentifier"]),
 
   transactions: defineTable({
@@ -40,5 +45,11 @@ export default defineSchema({
     emoji: v.string(),
     deadline: v.optional(v.number()),
     isCompleted: v.boolean(),
+  }).index("by_user", ["userId"]),
+
+  achievements: defineTable({
+    userId: v.id("users"),
+    badgeId: v.string(),
+    unlockedAt: v.number(),
   }).index("by_user", ["userId"]),
 });

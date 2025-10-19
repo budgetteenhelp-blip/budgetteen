@@ -1,6 +1,7 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { ConvexError } from "convex/values";
+import { internal } from "./_generated/api.js";
 
 export const add = mutation({
   args: {
@@ -57,6 +58,21 @@ export const add = mutation({
         args.type === "expense"
           ? user.totalExpenses + args.amount
           : user.totalExpenses,
+    });
+
+    // Award XP and update streak
+    await ctx.scheduler.runAfter(0, internal.gamification.awardXP, {
+      userId: user._id,
+      amount: 10,
+      reason: "transaction",
+    });
+
+    await ctx.scheduler.runAfter(0, internal.gamification.updateStreak, {
+      userId: user._id,
+    });
+
+    await ctx.scheduler.runAfter(0, internal.gamification.checkAndAwardAchievements, {
+      userId: user._id,
     });
 
     return transactionId;

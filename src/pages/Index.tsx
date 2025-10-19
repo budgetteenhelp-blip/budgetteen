@@ -10,6 +10,9 @@ import TransactionList from "./_components/transaction-list.tsx";
 import SpendingChart from "./_components/spending-chart.tsx";
 import BalanceChart from "./_components/balance-chart.tsx";
 import GoalsSection from "./_components/goals-section.tsx";
+import LevelBadge from "./_components/level-badge.tsx";
+import AchievementsSection from "./_components/achievements-section.tsx";
+import FunNudge from "./_components/fun-nudge.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { PlusIcon } from "lucide-react";
 
@@ -43,6 +46,14 @@ function IndexInner() {
 
         <Dashboard user={user} />
 
+        <div className="mt-6">
+          <LevelBadge />
+        </div>
+
+        <div className="mt-6">
+          <FunNudge user={user} />
+        </div>
+
         <div className="mt-6 grid gap-3 sm:grid-cols-2">
           <Button
             size="lg"
@@ -74,6 +85,8 @@ function IndexInner() {
         </div>
 
         <GoalsSection />
+
+        <AchievementsSection />
 
         <TransactionList />
 
