@@ -7,6 +7,8 @@ import { Skeleton } from "@/components/ui/skeleton.tsx";
 import Dashboard from "./_components/dashboard.tsx";
 import AddTransactionDialog from "./_components/add-transaction-dialog.tsx";
 import TransactionList from "./_components/transaction-list.tsx";
+import SpendingChart from "./_components/spending-chart.tsx";
+import BalanceChart from "./_components/balance-chart.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { PlusIcon } from "lucide-react";
 
@@ -63,6 +65,11 @@ function IndexInner() {
             <PlusIcon className="mr-2 size-6" />
             Add Expense 💸
           </Button>
+        </div>
+
+        <div className="mt-6 grid gap-6 lg:grid-cols-2">
+          <BalanceChart />
+          <SpendingChart />
         </div>
 
         <TransactionList />
