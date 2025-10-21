@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api.js";
 import type { Id } from "@/convex/_generated/dataModel.d.ts";
@@ -11,13 +12,15 @@ import {
   EmptyTitle,
   EmptyDescription,
 } from "@/components/ui/empty.tsx";
-import { Trash2Icon, TrendingUpIcon, TrendingDownIcon } from "lucide-react";
+import { Trash2Icon, TrendingUpIcon, TrendingDownIcon, DownloadIcon } from "lucide-react";
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
+import ExportDataDialog from "./export-data-dialog.tsx";
 
 export default function TransactionList() {
   const transactions = useQuery(api.transactions.getRecent, { limit: 20 });
   const deleteTransaction = useMutation(api.transactions.deleteTransaction);
+  const [showExportDialog, setShowExportDialog] = useState(false);
 
   const handleDelete = async (id: Id<"transactions">) => {
     try {
@@ -39,9 +42,11 @@ export default function TransactionList() {
   if (transactions === undefined) {
     return (
       <div className="mt-6 space-y-3">
-        <h2 className="text-2xl font-bold text-orange-900 dark:text-orange-100">
-          Recent Activity
-        </h2>
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-bold text-orange-900 dark:text-orange-100">
+            Recent Activity
+          </h2>
+        </div>
         {Array.from({ length: 3 }).map((_, i) => (
           <Skeleton key={i} className="h-20 w-full" />
         ))}
@@ -52,9 +57,20 @@ export default function TransactionList() {
   if (transactions.length === 0) {
     return (
       <div className="mt-6">
-        <h2 className="mb-4 text-2xl font-bold text-orange-900 dark:text-orange-100">
-          Recent Activity
-        </h2>
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-2xl font-bold text-orange-900 dark:text-orange-100">
+            Recent Activity
+          </h2>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setShowExportDialog(true)}
+            disabled
+          >
+            <DownloadIcon className="mr-2 size-4" />
+            Export
+          </Button>
+        </div>
         <Card className="border-2 border-dashed p-8">
           <Empty>
             <EmptyHeader>
@@ -68,15 +84,29 @@ export default function TransactionList() {
             </EmptyHeader>
           </Empty>
         </Card>
+        <ExportDataDialog
+          open={showExportDialog}
+          onOpenChange={setShowExportDialog}
+        />
       </div>
     );
   }
 
   return (
     <div className="mt-6 space-y-4">
-      <h2 className="text-2xl font-bold text-orange-900 dark:text-orange-100">
-        Recent Activity
-      </h2>
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-orange-900 dark:text-orange-100">
+          Recent Activity
+        </h2>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setShowExportDialog(true)}
+        >
+          <DownloadIcon className="mr-2 size-4" />
+          Export Data
+        </Button>
+      </div>
 
       <div className="space-y-2">
         {transactions.map((transaction) => (
@@ -148,6 +178,11 @@ export default function TransactionList() {
           </Card>
         ))}
       </div>
+
+      <ExportDataDialog
+        open={showExportDialog}
+        onOpenChange={setShowExportDialog}
+      />
     </div>
   );
 }
