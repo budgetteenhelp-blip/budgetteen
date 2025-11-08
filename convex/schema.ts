@@ -52,4 +52,11 @@ export default defineSchema({
     badgeId: v.string(),
     unlockedAt: v.number(),
   }).index("by_user", ["userId"]),
+
+  quizResults: defineTable({
+    userId: v.id("users"),
+    personalityType: v.string(),
+    score: v.number(),
+    completedAt: v.number(),
+  }).index("by_user", ["userId"]),
 });

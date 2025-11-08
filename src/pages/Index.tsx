@@ -14,12 +14,16 @@ import LevelBadge from "./_components/level-badge.tsx";
 import AchievementsSection from "./_components/achievements-section.tsx";
 import FunNudge from "./_components/fun-nudge.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { PlusIcon } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card.tsx";
+import { PlusIcon, BrainIcon } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 function IndexInner() {
   const user = useQuery(api.users.getCurrentUser);
+  const quizResult = useQuery(api.quiz.getLatestQuizResult);
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [transactionType, setTransactionType] = useState<"income" | "expense">("income");
+  const navigate = useNavigate();
 
   if (!user) {
     return (
@@ -53,6 +57,59 @@ function IndexInner() {
         <div className="mt-6">
           <FunNudge user={user} />
         </div>
+
+        {!quizResult && (
+          <Card className="mt-6 border-2 border-purple-300 bg-gradient-to-r from-purple-50 to-pink-50 dark:border-purple-700 dark:from-purple-950/50 dark:to-pink-950/50">
+            <CardHeader>
+              <div className="flex items-start justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="text-4xl">🧠</div>
+                  <div>
+                    <CardTitle className="text-xl text-purple-900 dark:text-purple-100">
+                      Discover Your Money Personality!
+                    </CardTitle>
+                    <CardDescription className="mt-1">
+                      Take our fun quiz to learn your financial style and get personalized tips
+                    </CardDescription>
+                  </div>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <Button
+                size="lg"
+                className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-lg font-bold hover:from-purple-600 hover:to-pink-600"
+                onClick={() => navigate("/quiz")}
+              >
+                <BrainIcon className="mr-2 size-5" />
+                Take the Quiz (2 min)
+              </Button>
+            </CardContent>
+          </Card>
+        )}
+
+        {quizResult && (
+          <Card className="mt-6 border-2 border-purple-300 bg-gradient-to-r from-purple-50 to-pink-50 dark:border-purple-700 dark:from-purple-950/50 dark:to-pink-950/50">
+            <CardHeader>
+              <CardTitle className="text-xl text-purple-900 dark:text-purple-100">
+                Your Money Personality: {quizResult.personalityType}
+              </CardTitle>
+              <CardDescription>
+                You scored {quizResult.score}/60 points
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={() => navigate("/quiz")}
+              >
+                <BrainIcon className="mr-2 size-4" />
+                Retake Quiz
+              </Button>
+            </CardContent>
+          </Card>
+        )}
 
         <div className="mt-6 grid gap-3 sm:grid-cols-2">
           <Button
