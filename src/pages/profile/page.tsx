@@ -22,9 +22,9 @@ interface CustomizationOption {
 const SKIN_TONES: CustomizationOption[] = [
   { id: "light", name: "Light", unlockLevel: 0, preview: "#FFE0BD" },
   { id: "medium", name: "Medium", unlockLevel: 0, preview: "#F1C27D" },
-  { id: "tan", name: "Tan", unlockLevel: 2, preview: "#D4A574" },
-  { id: "brown", name: "Brown", unlockLevel: 3, preview: "#8D5524" },
-  { id: "dark", name: "Dark", unlockLevel: 4, preview: "#5C4033" },
+  { id: "tan", name: "Tan", unlockLevel: 0, preview: "#D4A574" },
+  { id: "brown", name: "Brown", unlockLevel: 0, preview: "#8D5524" },
+  { id: "dark", name: "Dark", unlockLevel: 0, preview: "#5C4033" },
 ];
 
 const HAIR_STYLES: CustomizationOption[] = [
