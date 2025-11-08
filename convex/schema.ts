@@ -59,4 +59,15 @@ export default defineSchema({
     score: v.number(),
     completedAt: v.number(),
   }).index("by_user", ["userId"]),
+
+  worldProgress: defineTable({
+    userId: v.id("users"),
+    worldId: v.number(),
+    isUnlocked: v.boolean(),
+    completedLessons: v.array(v.number()),
+    stars: v.number(),
+    lastAccessedAt: v.optional(v.number()),
+  })
+    .index("by_user", ["userId"])
+    .index("by_user_and_world", ["userId", "worldId"]),
 });

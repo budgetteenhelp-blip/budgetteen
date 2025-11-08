@@ -21,6 +21,7 @@ import type * as goals from "../goals.js";
 import type * as quiz from "../quiz.js";
 import type * as transactions from "../transactions.js";
 import type * as users from "../users.js";
+import type * as worlds from "../worlds.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -39,6 +40,7 @@ declare const fullApi: ApiFromModules<{
   quiz: typeof quiz;
   transactions: typeof transactions;
   users: typeof users;
+  worlds: typeof worlds;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,
