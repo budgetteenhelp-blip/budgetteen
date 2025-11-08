@@ -19,81 +19,81 @@ interface Question {
 const questions: Question[] = [
   {
     id: 1,
-    question: "What is a good percentage of your income to donate to charity?",
+    question: "What are taxes?",
     options: [
-      "0% - Save everything for yourself",
-      "100% - Give away everything you earn",
-      "5-10% - A reasonable amount that helps others while keeping most for your needs",
-      "50% - Half of everything you earn",
+      "Money you donate to charity voluntarily",
+      "Money the government collects from income earners to pay for public services",
+      "Extra charges stores add for no reason",
+      "Money you save for retirement",
     ],
-    correctIndex: 2,
+    correctIndex: 1,
     explanation:
-      "Donating 5-10% is generous and sustainable! It helps others significantly while ensuring you can meet your own needs and save for the future. Many people use this as a guideline.",
+      "Taxes are mandatory payments collected by the government from people who earn income. They fund public services like roads, schools, police, and hospitals!",
   },
   {
     id: 2,
-    question: "What are taxes used for?",
+    question: "If you earn $100 at your part-time job, why might your paycheck only be $85-$90?",
     options: [
-      "Only for paying government workers' salaries",
-      "Schools, roads, hospitals, police, firefighters, and public services everyone uses",
-      "Just the military",
-      "Taxes don't actually fund anything useful",
+      "Your employer is stealing from you",
+      "You made a math mistake",
+      "Income taxes were taken out",
+      "The bank took a fee",
     ],
-    correctIndex: 1,
+    correctIndex: 2,
     explanation:
-      "Taxes fund essential services we all use! Schools, roads, hospitals, emergency services, parks, libraries, and more. Without taxes, society couldn't function and provide these shared benefits.",
+      "Income taxes are automatically deducted from your paycheck. This is normal! The amount before taxes is 'gross pay' and after taxes is 'net pay' (take-home).",
   },
   {
     id: 3,
-    question: "A stranger online asks you to donate to their fundraiser. What should you do FIRST?",
+    question: "Which is NOT a valid way to give back or help others?",
     options: [
-      "Send money immediately - they need help",
-      "Verify it's real through official platforms or by talking to them directly",
-      "Never donate to any online fundraisers",
-      "Share it with all your friends first",
+      "Donating money to charity",
+      "Volunteering your time",
+      "Posting on social media that you care",
+      "Donating clothes or items you don't use",
     ],
-    correctIndex: 1,
+    correctIndex: 2,
     explanation:
-      "Always verify first! Check if there's an official GoFundMe, talk to the person directly, or ask trusted adults. Many fundraisers are real, but scammers also exist. Verification protects you!",
+      "While awareness is good, just posting doesn't actually help! Real giving means donating money, time, items, or skills to make tangible impact.",
   },
   {
     id: 4,
-    question: "You have no money but want to help your community. What can you do?",
+    question: "Why do many people recommend donating 10% of what you earn to charity?",
     options: [
-      "Nothing - you can only help if you have money",
-      "Borrow money to donate",
-      "Volunteer your time, skills, and energy at local organizations",
-      "Wait until you're rich to start helping",
-    ],
-    correctIndex: 2,
-    explanation:
-      "Time and skills are incredibly valuable! Volunteer at food banks, tutor younger students, help elderly neighbors, clean parks, or use your talents to serve others. You don't need money to make a difference!",
-  },
-  {
-    id: 5,
-    question: "Which is an example of income tax?",
-    options: [
-      "Extra money added when you buy a shirt at the store",
-      "Money automatically taken from your paycheck before you receive it",
-      "Fee for owning a house",
-      "Tip you give a waiter",
+      "It's required by law",
+      "It's a balanced way to help others while still keeping most for yourself",
+      "Churches force you to do this",
+      "You get all the money back in taxes",
     ],
     correctIndex: 1,
     explanation:
-      "Income tax is deducted from your paycheck before you get paid. The store example is sales tax, the house example is property tax, and tips aren't taxes at all!",
+      "The 10% guideline (called 'tithing' by some) is a balanced approach - you help make a real difference while keeping 90% for your needs and wants. It's a suggestion, not a rule!",
+  },
+  {
+    id: 5,
+    question: "What's the main advantage of volunteering your TIME instead of donating money?",
+    options: [
+      "It's always better than giving money",
+      "You provide hands-on help and personal connection",
+      "You don't have to give anything valuable",
+      "It looks better on college applications",
+    ],
+    correctIndex: 1,
+    explanation:
+      "Volunteering provides direct, personal help and lets you connect with the cause. Both time AND money are valuable - organizations need both to function!",
   },
   {
     id: 6,
-    question: "What's the best way to make sure your donation helps effectively?",
+    question: "What do taxes pay for?",
     options: [
-      "Donate to the first charity you see",
-      "Send cash to random people on the street",
-      "Research reputable charities that align with causes you care about",
-      "Only donate to huge organizations, never small local ones",
+      "Only the military",
+      "Public services like roads, schools, police, fire departments, and parks",
+      "Politicians' personal vacations",
+      "Nothing useful",
     ],
-    correctIndex: 2,
+    correctIndex: 1,
     explanation:
-      "Research is key! Look for charities with good track records, transparency about how they use funds, and causes you genuinely care about. Both large and small organizations can be effective!",
+      "Taxes fund essential public services everyone uses: roads, schools, police, firefighters, parks, libraries, and programs to help people in need. It's how we invest in our community!",
   },
 ];
 
@@ -210,7 +210,7 @@ export default function Lesson6Quiz({ onComplete }: Props) {
                 <Button
                   size="lg"
                   onClick={handleNext}
-                  className="w-full bg-gradient-to-r from-teal-500 to-green-500 hover:from-teal-600 hover:to-green-600"
+                  className="w-full bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600"
                 >
                   {currentQuestion < questions.length - 1
                     ? "Next Question"
@@ -225,7 +225,7 @@ export default function Lesson6Quiz({ onComplete }: Props) {
                   key={index}
                   className={`h-2 flex-1 rounded-full transition-all ${
                     index < currentQuestion
-                      ? "bg-gradient-to-r from-teal-500 to-green-500"
+                      ? "bg-gradient-to-r from-teal-500 to-emerald-500"
                       : index === currentQuestion
                         ? "bg-teal-300 dark:bg-teal-700"
                         : "bg-muted"
@@ -241,10 +241,10 @@ export default function Lesson6Quiz({ onComplete }: Props) {
                 </p>
                 <p className="mt-2 text-center text-sm text-muted-foreground">
                   {score === questions.length
-                    ? "Perfect! You understand giving and taxes!"
+                    ? "Perfect! You understand giving and community responsibility!"
                     : score >= 4
-                      ? "Great work! You know how to give back responsibly!"
-                      : "Good effort! Keep learning about charity and taxes!"}
+                      ? "Great work! You know how to give back and contribute!"
+                      : "Good effort! Keep learning about generosity and taxes!"}
                 </p>
               </div>
             )}

@@ -19,8 +19,8 @@ import { toast } from "sonner";
 import Lesson1Story from "./_components/lesson-1-story.tsx";
 import Lesson2CharityGame from "./_components/lesson-2-charity-game.tsx";
 import Lesson3Story from "./_components/lesson-3-story.tsx";
-import Lesson4TaxGame from "./_components/lesson-4-tax-game.tsx";
-import Lesson5GivingGame from "./_components/lesson-5-giving-game.tsx";
+import Lesson4DonationGame from "./_components/lesson-4-donation-game.tsx";
+import Lesson5VolunteerGame from "./_components/lesson-5-volunteer-game.tsx";
 import Lesson6Quiz from "./_components/lesson-6-quiz.tsx";
 
 interface Lesson {
@@ -37,47 +37,47 @@ const lessons: Lesson[] = [
     id: 1,
     title: "Welcome to The Giving Grove",
     emoji: "🌳",
-    description: "Meet Grandma Grace and learn why giving back matters",
+    description: "Meet Grandma Willow and learn why giving back matters",
     type: "story",
     stars: 1,
   },
   {
     id: 2,
-    title: "Charity Explorer",
-    emoji: "💝",
-    description: "Discover different charities and causes you can support",
+    title: "Types of Charity",
+    emoji: "❤️",
+    description: "Explore different causes and ways to make a difference",
     type: "game",
     stars: 2,
   },
   {
     id: 3,
-    title: "Understanding Taxes",
+    title: "The Community Treasury",
     emoji: "🏛️",
-    description: "Learn what taxes are and why we pay them",
+    description: "Understand taxes and why we pay them",
     type: "story",
     stars: 1,
   },
   {
     id: 4,
-    title: "Tax Budget Challenge",
-    emoji: "💵",
-    description: "Allocate tax money across government programs",
+    title: "Choose Your Cause",
+    emoji: "💝",
+    description: "Decide where to donate and see your impact",
     type: "game",
-    stars: 3,
+    stars: 2,
   },
   {
     id: 5,
-    title: "Smart Giving Decisions",
-    emoji: "💚",
-    description: "Make wise choices about when and how to give",
+    title: "Time vs Money",
+    emoji: "🤲",
+    description: "Learn about volunteering versus donating money",
     type: "game",
     stars: 3,
   },
   {
     id: 6,
-    title: "Giving & Taxes Quiz",
+    title: "Giving Grove Quiz",
     emoji: "🎓",
-    description: "Test your knowledge on charity and taxes",
+    description: "Test your knowledge of charity and taxes",
     type: "quiz",
     stars: 2,
   },
@@ -190,9 +190,9 @@ function World7Inner() {
       case 3:
         return <Lesson3Story onComplete={() => handleLessonComplete(3, 1)} />;
       case 4:
-        return <Lesson4TaxGame onComplete={() => handleLessonComplete(4, 3)} />;
+        return <Lesson4DonationGame onComplete={() => handleLessonComplete(4, 2)} />;
       case 5:
-        return <Lesson5GivingGame onComplete={() => handleLessonComplete(5, 3)} />;
+        return <Lesson5VolunteerGame onComplete={() => handleLessonComplete(5, 3)} />;
       case 6:
         return <Lesson6Quiz onComplete={() => handleLessonComplete(6, 2)} />;
       default:
@@ -250,7 +250,7 @@ function World7Inner() {
                 </div>
                 <div className="h-3 overflow-hidden rounded-full bg-teal-200 dark:bg-teal-900">
                   <div
-                    className="h-full bg-gradient-to-r from-teal-500 to-green-500 transition-all duration-500"
+                    className="h-full bg-gradient-to-r from-teal-500 to-emerald-500 transition-all duration-500"
                     style={{ width: `${progress}%` }}
                   />
                 </div>
@@ -317,7 +317,7 @@ function World7Inner() {
                       </div>
                       {unlocked && !completed && (
                         <Button
-                          className="bg-gradient-to-r from-teal-500 to-green-500 hover:from-teal-600 hover:to-green-600"
+                          className="bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600"
                           onClick={(e) => {
                             e.stopPropagation();
                             handleStartLesson(lesson);
@@ -346,26 +346,25 @@ function World7Inner() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-2xl text-green-900 dark:text-green-100">
                 <span className="text-4xl">🎉</span>
-                Congratulations, Generous Giver!
+                Congratulations, Generous Soul!
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-lg text-foreground">
                 You've completed World 7: The Giving Grove! You now understand
-                the power of giving back, how taxes support our communities, and
-                how to make smart charitable decisions. Your generosity will make
-                the world better!
+                the importance of giving back, how taxes work, and the many ways
+                you can make a positive impact on your community and the world.
               </p>
               <div className="rounded-lg bg-white p-4 dark:bg-card">
                 <p className="mb-2 font-semibold text-foreground">
-                  💚 Remember About Giving:
+                  💚 Remember:
                 </p>
                 <ul className="space-y-1 text-sm text-muted-foreground">
-                  <li>• Even small donations make a big difference</li>
-                  <li>• Time and skills are just as valuable as money</li>
-                  <li>• Always research charities before donating</li>
-                  <li>• Taxes fund essential services for everyone</li>
-                  <li>• Give sustainably - help others while meeting your needs</li>
+                  <li>• You don't need to be rich to give - start small!</li>
+                  <li>• Both time and money are valuable contributions</li>
+                  <li>• Taxes fund services that benefit everyone</li>
+                  <li>• Every act of kindness and generosity matters</li>
+                  <li>• Giving makes you AND others feel good!</li>
                 </ul>
               </div>
               <Button
@@ -400,7 +399,7 @@ export default function World7Page() {
                 World 7: The Giving Grove
               </CardTitle>
               <p className="text-muted-foreground">
-                Sign in to learn about giving back!
+                Sign in to learn about charity and giving back!
               </p>
             </CardHeader>
             <CardContent>
