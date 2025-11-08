@@ -314,14 +314,20 @@ function QuizInner() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-100 via-pink-100 to-orange-100 p-4 dark:from-purple-950 dark:via-pink-950 dark:to-orange-950 py-8">
         <div className="mx-auto max-w-2xl">
-          <Button
-            variant="ghost"
-            className="mb-4"
-            onClick={() => navigate("/")}
-          >
-            <HomeIcon className="mr-2 size-4" />
-            Back to Home
-          </Button>
+          <div className="mb-4 flex items-center justify-between">
+            <Button
+              variant="ghost"
+              onClick={() => navigate("/")}
+            >
+              <HomeIcon className="mr-2 size-4" />
+              Back to Home
+            </Button>
+            <img 
+              src="https://cdn.hercules.app/file_n1wHwb8O3RpaBvvNN8Ed9RBI" 
+              alt="Budget Teen Logo" 
+              className="size-10"
+            />
+          </div>
 
           <Card className="border-4 border-orange-300 shadow-2xl dark:border-orange-700">
             <CardHeader className="space-y-4 text-center">
@@ -407,8 +413,15 @@ function QuizInner() {
             <ArrowLeftIcon className="mr-2 size-4" />
             {currentQuestion > 0 ? "Previous" : "Exit"}
           </Button>
-          <div className="text-sm font-semibold text-foreground">
-            Question {currentQuestion + 1} of {totalQuestions}
+          <div className="flex items-center gap-3">
+            <div className="text-sm font-semibold text-foreground">
+              Question {currentQuestion + 1} of {totalQuestions}
+            </div>
+            <img 
+              src="https://cdn.hercules.app/file_n1wHwb8O3RpaBvvNN8Ed9RBI" 
+              alt="Budget Teen Logo" 
+              className="size-8"
+            />
           </div>
         </div>
 
@@ -459,6 +472,11 @@ export default function QuizPage() {
         <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-purple-100 via-pink-100 to-orange-100 p-4 dark:from-purple-950 dark:via-pink-950 dark:to-orange-950">
           <Card className="w-full max-w-md">
             <CardHeader className="space-y-4 text-center">
+              <img 
+                src="https://cdn.hercules.app/file_n1wHwb8O3RpaBvvNN8Ed9RBI" 
+                alt="Budget Teen Logo" 
+                className="mx-auto size-20"
+              />
               <div className="text-6xl">🧠</div>
               <CardTitle className="text-3xl font-bold">
                 Financial Personality Quiz

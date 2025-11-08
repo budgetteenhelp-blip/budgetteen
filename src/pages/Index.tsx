@@ -36,14 +36,21 @@ function IndexInner() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 dark:from-orange-950 dark:via-amber-950 dark:to-yellow-950">
       <div className="mx-auto max-w-4xl p-4 pb-24 md:p-6">
-        <div className="mb-6 flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-orange-900 dark:text-orange-100">
-              Hey, {user.name?.split(" ")[0] || "there"}! 👋
-            </h1>
-            <p className="text-sm text-orange-700 dark:text-orange-300">
-              Let's manage your money like a pro
-            </p>
+        <div className="mb-6 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <img 
+              src="https://cdn.hercules.app/file_n1wHwb8O3RpaBvvNN8Ed9RBI" 
+              alt="Budget Teen Logo" 
+              className="size-12 md:size-14"
+            />
+            <div>
+              <h1 className="text-2xl font-bold text-orange-900 dark:text-orange-100 md:text-3xl">
+                Hey, {user.name?.split(" ")[0] || "there"}! 👋
+              </h1>
+              <p className="text-sm text-orange-700 dark:text-orange-300">
+                Let's manage your money like a pro
+              </p>
+            </div>
           </div>
           <SignInButton variant="ghost" />
         </div>
@@ -163,8 +170,12 @@ export default function Index() {
       <Unauthenticated>
         <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-orange-100 via-amber-100 to-yellow-100 p-4 dark:from-orange-950 dark:via-amber-950 dark:to-yellow-950">
           <div className="w-full max-w-md space-y-6 text-center">
-            <div className="space-y-2">
-              <div className="text-6xl">💰</div>
+            <div className="space-y-4">
+              <img 
+                src="https://cdn.hercules.app/file_n1wHwb8O3RpaBvvNN8Ed9RBI" 
+                alt="Budget Teen Logo" 
+                className="mx-auto size-32 md:size-40"
+              />
               <h1 className="text-4xl font-bold text-orange-900 dark:text-orange-100">
                 Budget Teen
               </h1>
