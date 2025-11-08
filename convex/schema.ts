@@ -14,6 +14,15 @@ export default defineSchema({
     currentStreak: v.optional(v.number()),
     longestStreak: v.optional(v.number()),
     lastActivityDate: v.optional(v.number()),
+    // Avatar customization
+    avatarSkinTone: v.optional(v.string()),
+    avatarHairStyle: v.optional(v.string()),
+    avatarHairColor: v.optional(v.string()),
+    avatarOutfit: v.optional(v.string()),
+    avatarAccessory: v.optional(v.string()),
+    avatarBackground: v.optional(v.string()),
+    avatarFaceExpression: v.optional(v.string()),
+    unlockedItems: v.optional(v.array(v.string())),
   }).index("by_token", ["tokenIdentifier"]),
 
   transactions: defineTable({

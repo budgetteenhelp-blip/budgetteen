@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ArrowLeftIcon, LockIcon, StarIcon, TrophyIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils.ts";
+import ProfileAvatarButton from "@/components/profile-avatar-button.tsx";
 
 interface World {
   id: number;
@@ -134,11 +135,14 @@ function LearnInner() {
             <ArrowLeftIcon className="mr-2 size-4" />
             Back to Dashboard
           </Button>
-          <img
-            src="https://cdn.hercules.app/file_n1wHwb8O3RpaBvvNN8Ed9RBI"
-            alt="Budget Teen Logo"
-            className="size-10"
-          />
+          <div className="flex items-center gap-2">
+            <ProfileAvatarButton />
+            <img
+              src="https://cdn.hercules.app/file_n1wHwb8O3RpaBvvNN8Ed9RBI"
+              alt="Budget Teen Logo"
+              className="size-10"
+            />
+          </div>
         </div>
 
         <div className="mb-8 text-center">

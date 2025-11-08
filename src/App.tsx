@@ -12,6 +12,7 @@ import World5Page from "./pages/learn/world/5/page.tsx";
 import World6Page from "./pages/learn/world/6/page.tsx";
 import World7Page from "./pages/learn/world/7/page.tsx";
 import World8Page from "./pages/learn/world/8/page.tsx";
+import ProfilePage from "./pages/profile/page.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
           <Route path="/" element={<Index />} />
           <Route path="/quiz" element={<QuizPage />} />
           <Route path="/learn" element={<LearnPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
           <Route path="/learn/world/1" element={<World1Page />} />
           <Route path="/learn/world/2" element={<World2Page />} />
           <Route path="/learn/world/3" element={<World3Page />} />

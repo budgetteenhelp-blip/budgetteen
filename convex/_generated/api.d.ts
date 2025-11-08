@@ -18,6 +18,7 @@ import type * as categories from "../categories.js";
 import type * as export_ from "../export.js";
 import type * as gamification from "../gamification.js";
 import type * as goals from "../goals.js";
+import type * as profile from "../profile.js";
 import type * as quiz from "../quiz.js";
 import type * as transactions from "../transactions.js";
 import type * as users from "../users.js";
@@ -37,6 +38,7 @@ declare const fullApi: ApiFromModules<{
   export: typeof export_;
   gamification: typeof gamification;
   goals: typeof goals;
+  profile: typeof profile;
   quiz: typeof quiz;
   transactions: typeof transactions;
   users: typeof users;

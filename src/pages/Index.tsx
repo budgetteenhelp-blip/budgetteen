@@ -13,6 +13,7 @@ import GoalsSection from "./_components/goals-section.tsx";
 import LevelBadge from "./_components/level-badge.tsx";
 import AchievementsSection from "./_components/achievements-section.tsx";
 import FunNudge from "./_components/fun-nudge.tsx";
+import ProfileAvatarButton from "@/components/profile-avatar-button.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card.tsx";
 import { PlusIcon, BrainIcon, GraduationCapIcon } from "lucide-react";
@@ -52,7 +53,10 @@ function IndexInner() {
               </p>
             </div>
           </div>
-          <SignInButton variant="ghost" />
+          <div className="flex items-center gap-2">
+            <ProfileAvatarButton />
+            <SignInButton variant="ghost" />
+          </div>
         </div>
 
         <Dashboard user={user} />
