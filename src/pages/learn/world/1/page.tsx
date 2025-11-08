@@ -15,6 +15,12 @@ import {
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils.ts";
 import { toast } from "sonner";
+import Lesson1Story from "./_components/lesson-1-story.tsx";
+import Lesson2TradingGame from "./_components/lesson-2-trading-game.tsx";
+import Lesson3Story from "./_components/lesson-3-story.tsx";
+import Lesson4JobGame from "./_components/lesson-4-job-game.tsx";
+import Lesson5NeedsWantsGame from "./_components/lesson-5-needs-wants-game.tsx";
+import Lesson6Quiz from "./_components/lesson-6-quiz.tsx";
 
 interface Lesson {
   id: number;
@@ -102,36 +108,54 @@ function World1Inner() {
     return completedLessons.includes(lessonId);
   };
 
-  const handleStartLesson = async (lesson: Lesson) => {
+  const handleStartLesson = (lesson: Lesson) => {
     if (!isLessonUnlocked(lesson.id)) {
       toast.error("Complete the previous lesson first!");
       return;
     }
 
-    // For now, simulate completing the lesson
-    // In a full implementation, this would launch the actual lesson/game
-    if (isLessonCompleted(lesson.id)) {
-      toast.info("You've already completed this lesson!");
-    } else {
-      toast.success(`Starting: ${lesson.title}`);
-      
-      // Simulate lesson completion after a short delay
-      setTimeout(async () => {
-        try {
-          await completeLesson({
-            worldId: 1,
-            lessonId: lesson.id,
-            starsEarned: lesson.stars,
-          });
-          toast.success(`Great job! You earned ${lesson.stars} stars! ⭐`);
-        } catch (error) {
-          console.error("Failed to complete lesson:", error);
-        }
-      }, 2000);
+    setSelectedLesson(lesson.id);
+  };
+
+  const handleLessonComplete = async (lessonId: number, stars: number) => {
+    try {
+      await completeLesson({
+        worldId: 1,
+        lessonId: lessonId,
+        starsEarned: stars,
+      });
+      toast.success(`Great job! You earned ${stars} stars! ⭐`);
+      setSelectedLesson(null);
+    } catch (error) {
+      console.error("Failed to complete lesson:", error);
+      toast.error("Failed to save progress. Please try again.");
     }
   };
 
   const progress = (completedLessons.length / lessons.length) * 100;
+
+  // Show lesson component if selected
+  if (selectedLesson) {
+    const lesson = lessons.find((l) => l.id === selectedLesson);
+    if (!lesson) return null;
+
+    switch (selectedLesson) {
+      case 1:
+        return <Lesson1Story onComplete={() => handleLessonComplete(1, 1)} />;
+      case 2:
+        return <Lesson2TradingGame onComplete={() => handleLessonComplete(2, 2)} />;
+      case 3:
+        return <Lesson3Story onComplete={() => handleLessonComplete(3, 1)} />;
+      case 4:
+        return <Lesson4JobGame onComplete={() => handleLessonComplete(4, 2)} />;
+      case 5:
+        return <Lesson5NeedsWantsGame onComplete={() => handleLessonComplete(5, 3)} />;
+      case 6:
+        return <Lesson6Quiz onComplete={() => handleLessonComplete(6, 2)} />;
+      default:
+        return null;
+    }
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-100 via-yellow-100 to-orange-100 dark:from-amber-950 dark:via-yellow-950 dark:to-orange-950">
