@@ -16,6 +16,12 @@ import {
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils.ts";
 import { toast } from "sonner";
+import Lesson1Story from "./_components/lesson-1-story.tsx";
+import Lesson2PiggyBanks from "./_components/lesson-2-piggy-banks.tsx";
+import Lesson3MoneyTrees from "./_components/lesson-3-money-trees.tsx";
+import Lesson4GoalsStory from "./_components/lesson-4-goals-story.tsx";
+import Lesson5EmergencyGame from "./_components/lesson-5-emergency-game.tsx";
+import Lesson6Quiz from "./_components/lesson-6-quiz.tsx";
 
 interface Lesson {
   id: number;
@@ -84,6 +90,7 @@ function World2Inner() {
   const completeLesson = useMutation(api.worlds.completeLesson);
   const unlockWorld = useMutation(api.worlds.unlockNextWorld);
   const [isUnlocking, setIsUnlocking] = useState(false);
+  const [selectedLesson, setSelectedLesson] = useState<number | null>(null);
 
   // Check if World 1 is completed and unlock World 2
   useEffect(() => {
@@ -162,29 +169,35 @@ function World2Inner() {
       toast.error("Complete the previous lesson first!");
       return;
     }
+    setSelectedLesson(lesson.id);
+  };
 
-    if (isLessonCompleted(lesson.id)) {
-      toast.info("You've already completed this lesson!");
-    } else {
-      toast.success(`Starting: ${lesson.title}`);
-
-      // Simulate lesson completion
-      setTimeout(async () => {
-        try {
-          await completeLesson({
-            worldId: 2,
-            lessonId: lesson.id,
-            starsEarned: lesson.stars,
-          });
-          toast.success(
-            `Great job! You earned ${lesson.stars} stars! ⭐ Keep climbing!`,
-          );
-        } catch (error) {
-          console.error("Failed to complete lesson:", error);
-        }
-      }, 2000);
+  const handleLessonComplete = async (lessonId: number) => {
+    try {
+      await completeLesson({
+        worldId: 2,
+        lessonId: lessonId,
+        starsEarned: lessons.find(l => l.id === lessonId)?.stars || 1,
+      });
+      toast.success("Lesson completed! ⭐");
+      setSelectedLesson(null);
+    } catch (error) {
+      console.error("Failed to complete lesson:", error);
     }
   };
+
+  if (selectedLesson !== null) {
+    const LessonComponents = [
+      Lesson1Story,
+      Lesson2PiggyBanks,
+      Lesson3MoneyTrees,
+      Lesson4GoalsStory,
+      Lesson5EmergencyGame,
+      Lesson6Quiz,
+    ];
+    const LessonComponent = LessonComponents[selectedLesson - 1];
+    return <LessonComponent onComplete={() => handleLessonComplete(selectedLesson)} />;
+  }
 
   const progress = (completedLessons.length / lessons.length) * 100;
 
