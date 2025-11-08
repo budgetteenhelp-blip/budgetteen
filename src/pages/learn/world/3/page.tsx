@@ -338,7 +338,7 @@ function World3Inner() {
               <Button
                 size="lg"
                 className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600"
-                onClick={() => navigate("/learn")}
+                onClick={() => navigate("/learn/world/4")}
               >
                 Continue to World 4: Town Treasury Quest
               </Button>

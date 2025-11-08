@@ -130,6 +130,48 @@ export const completeLesson = mutation({
       });
     }
 
+    // Define lessons per world
+    const lessonsPerWorld: Record<number, number> = {
+      1: 6,
+      2: 6,
+      3: 6,
+      4: 6,
+      5: 6,
+      6: 6,
+      7: 6,
+      8: 6,
+    };
+
+    // Check if world is completed and unlock next world
+    const totalLessons = lessonsPerWorld[args.worldId] || 6;
+    if (completedLessons.length === totalLessons && args.worldId < 8) {
+      const nextWorldId = args.worldId + 1;
+
+      // Check if next world already exists
+      const nextWorldProgress = await ctx.db
+        .query("worldProgress")
+        .withIndex("by_user_and_world", (q) =>
+          q.eq("userId", user._id).eq("worldId", nextWorldId),
+        )
+        .unique();
+
+      if (nextWorldProgress) {
+        // Update to unlocked if it exists
+        await ctx.db.patch(nextWorldProgress._id, {
+          isUnlocked: true,
+        });
+      } else {
+        // Create new world progress entry
+        await ctx.db.insert("worldProgress", {
+          userId: user._id,
+          worldId: nextWorldId,
+          isUnlocked: true,
+          completedLessons: [],
+          stars: 0,
+        });
+      }
+    }
+
     return { success: true };
   },
 });

@@ -338,7 +338,7 @@ function World2Inner() {
               <Button
                 size="lg"
                 className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600"
-                onClick={() => navigate("/learn")}
+                onClick={() => navigate("/learn/world/3")}
               >
                 Continue to World 3: The Market Maze
               </Button>

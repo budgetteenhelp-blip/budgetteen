@@ -363,7 +363,7 @@ function World4Inner() {
               <Button
                 size="lg"
                 className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
-                onClick={() => navigate("/learn")}
+                onClick={() => navigate("/learn/world/5")}
               >
                 Continue to World 5: Entrepreneur Island
               </Button>

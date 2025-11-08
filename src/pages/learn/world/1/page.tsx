@@ -307,7 +307,7 @@ function World1Inner() {
               <Button
                 size="lg"
                 className="w-full bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600"
-                onClick={() => navigate("/learn")}
+                onClick={() => navigate("/learn/world/2")}
               >
                 Continue to World 2: Piggy Bank Peaks
               </Button>

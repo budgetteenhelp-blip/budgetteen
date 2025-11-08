@@ -372,7 +372,7 @@ function World5Inner() {
               <Button
                 size="lg"
                 className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600"
-                onClick={() => navigate("/learn")}
+                onClick={() => navigate("/learn/world/6")}
               >
                 Continue to World 6: Digital Dunes
               </Button>
