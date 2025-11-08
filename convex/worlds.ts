@@ -2,6 +2,15 @@ import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { ConvexError } from "convex/values";
 
+// Helper function to calculate cumulative XP needed for a level
+function getXPForLevel(level: number): number {
+  let total = 0;
+  for (let i = 1; i <= level; i++) {
+    total += Math.floor(100 * Math.pow(1.5, i - 1));
+  }
+  return total;
+}
+
 export const getUserProgress = query({
   args: {},
   handler: async (ctx) => {
@@ -123,12 +132,27 @@ export const completeLesson = mutation({
       lastAccessedAt: Date.now(),
     });
 
-    // Award XP to user
-    if (user.xp !== undefined) {
-      await ctx.db.patch(user._id, {
-        xp: user.xp + args.starsEarned * 10,
-      });
+    // Award XP to user (which handles level-ups automatically)
+    const xpAmount = args.starsEarned * 10;
+    const currentLevel = user.level ?? 1;
+    const currentXP = user.xp ?? 0;
+    const newXP = currentXP + xpAmount;
+    
+    // Calculate new level based on total XP (max level 20)
+    let newLevel = currentLevel;
+    for (let level = currentLevel; level < 20; level++) {
+      const xpNeededForNextLevel = getXPForLevel(level + 1);
+      if (newXP >= xpNeededForNextLevel) {
+        newLevel = level + 1;
+      } else {
+        break;
+      }
     }
+    
+    await ctx.db.patch(user._id, {
+      xp: newXP,
+      level: newLevel,
+    });
 
     // Define lessons per world
     const lessonsPerWorld: Record<number, number> = {
@@ -271,5 +295,68 @@ export const unlockNextWorld = mutation({
     }
 
     return { success: true };
+  },
+});
+
+// Mutation to recalculate user level based on current XP
+export const recalculateLevel = mutation({
+  args: {},
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new ConvexError({
+        message: "User not logged in",
+        code: "UNAUTHENTICATED",
+      });
+    }
+
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_token", (q) =>
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
+      )
+      .unique();
+
+    if (!user) {
+      throw new ConvexError({
+        message: "User not found",
+        code: "NOT_FOUND",
+      });
+    }
+
+    const currentXP = user.xp ?? 0;
+    let correctLevel = 1;
+
+    // Calculate correct level based on total XP (max level 20)
+    for (let level = 1; level < 20; level++) {
+      const xpNeededForNextLevel = getXPForLevel(level + 1);
+      if (currentXP >= xpNeededForNextLevel) {
+        correctLevel = level + 1;
+      } else {
+        break;
+      }
+    }
+
+    const oldLevel = user.level ?? 1;
+
+    if (correctLevel !== oldLevel) {
+      await ctx.db.patch(user._id, {
+        level: correctLevel,
+      });
+      return { 
+        success: true, 
+        levelChanged: true, 
+        oldLevel, 
+        newLevel: correctLevel,
+        xp: currentXP 
+      };
+    }
+
+    return { 
+      success: true, 
+      levelChanged: false, 
+      level: correctLevel,
+      xp: currentXP 
+    };
   },
 });

@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Authenticated, Unauthenticated, AuthLoading } from "convex/react";
-import { useQuery } from "convex/react";
+import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api.js";
 import { SignInButton } from "@/components/ui/signin.tsx";
 import { Skeleton } from "@/components/ui/skeleton.tsx";
@@ -25,6 +25,17 @@ function IndexInner() {
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [transactionType, setTransactionType] = useState<"income" | "expense">("income");
   const navigate = useNavigate();
+  const recalculateLevel = useMutation(api.worlds.recalculateLevel);
+
+  // Auto-fix level on load
+  useEffect(() => {
+    if (user) {
+      recalculateLevel().catch(() => {
+        // Silently fail if there's an error
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?._id]);
 
   if (!user) {
     return (

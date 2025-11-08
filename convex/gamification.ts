@@ -71,6 +71,18 @@ export const BADGES = {
     emoji: "🎓",
     description: "Reached level 10",
   },
+  LEVEL_15: {
+    id: "LEVEL_15",
+    name: "Financial Expert",
+    emoji: "💎",
+    description: "Reached level 15",
+  },
+  LEVEL_20: {
+    id: "LEVEL_20",
+    name: "Budget Legend",
+    emoji: "🏅",
+    description: "Reached level 20",
+  },
   TRANSACTIONS_50: {
     id: "TRANSACTIONS_50",
     name: "Super Tracker",
@@ -88,9 +100,18 @@ const XP_REWARDS = {
   DAILY_ACTIVITY: 15,
 };
 
-// XP needed per level (exponential growth)
+// XP needed per level (exponential growth) - cumulative total XP
 function xpForLevel(level: number): number {
-  return Math.floor(100 * Math.pow(1.5, level - 1));
+  let total = 0;
+  for (let i = 1; i <= level; i++) {
+    total += Math.floor(100 * Math.pow(1.5, i - 1));
+  }
+  return total;
+}
+
+// XP needed for the next level (not cumulative)
+function xpForNextLevel(currentLevel: number): number {
+  return Math.floor(100 * Math.pow(1.5, currentLevel));
 }
 
 export const getUserStats = query({
@@ -123,8 +144,11 @@ export const getUserStats = query({
     const currentStreak = user.currentStreak ?? 0;
     const longestStreak = user.longestStreak ?? 0;
 
-    const xpForNextLevel = xpForLevel(level + 1);
-    const xpProgress = (xp / xpForNextLevel) * 100;
+    const currentLevelXP = xpForLevel(level);
+    const nextLevelXP = xpForLevel(level + 1);
+    const xpInCurrentLevel = xp - currentLevelXP;
+    const xpNeededForNextLevel = nextLevelXP - currentLevelXP;
+    const xpProgress = Math.min(100, Math.max(0, (xpInCurrentLevel / xpNeededForNextLevel) * 100));
 
     const transactions = await ctx.db
       .query("transactions")
@@ -141,8 +165,10 @@ export const getUserStats = query({
     return {
       level,
       xp,
-      xpForNextLevel,
+      xpForNextLevel: nextLevelXP,
       xpProgress,
+      xpInCurrentLevel,
+      xpNeededForNextLevel,
       currentStreak,
       longestStreak,
       totalTransactions: transactions.length,
@@ -205,13 +231,16 @@ export const awardXP = internalMutation({
     }
 
     const currentLevel = user.level ?? 1;
-    let newXP = (user.xp ?? 0) + args.amount;
+    const newXP = (user.xp ?? 0) + args.amount;
     let newLevel = currentLevel;
 
-    // Check for level ups
-    while (newXP >= xpForLevel(newLevel + 1)) {
-      newXP -= xpForLevel(newLevel + 1);
-      newLevel++;
+    // Calculate new level based on total XP (max level 20)
+    for (let level = currentLevel; level < 20; level++) {
+      if (newXP >= xpForLevel(level + 1)) {
+        newLevel = level + 1;
+      } else {
+        break;
+      }
     }
 
     await ctx.db.patch(args.userId, {
@@ -219,7 +248,7 @@ export const awardXP = internalMutation({
       level: newLevel,
     });
 
-    return { leveledUp: newLevel > currentLevel, newLevel };
+    return { leveledUp: newLevel > currentLevel, newLevel, xp: newXP };
   },
 });
 
@@ -413,6 +442,24 @@ export const checkAndAwardAchievements = internalMutation({
         unlockedAt: Date.now(),
       });
       newBadges.push(BADGES.LEVEL_10.id);
+    }
+
+    if (level >= 15 && !unlockedBadgeIds.has(BADGES.LEVEL_15.id)) {
+      await ctx.db.insert("achievements", {
+        userId: args.userId,
+        badgeId: BADGES.LEVEL_15.id,
+        unlockedAt: Date.now(),
+      });
+      newBadges.push(BADGES.LEVEL_15.id);
+    }
+
+    if (level >= 20 && !unlockedBadgeIds.has(BADGES.LEVEL_20.id)) {
+      await ctx.db.insert("achievements", {
+        userId: args.userId,
+        badgeId: BADGES.LEVEL_20.id,
+        unlockedAt: Date.now(),
+      });
+      newBadges.push(BADGES.LEVEL_20.id);
     }
 
     return newBadges;
