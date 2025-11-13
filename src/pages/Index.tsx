@@ -13,6 +13,7 @@ import GoalsSection from "./_components/goals-section.tsx";
 import LevelBadge from "./_components/level-badge.tsx";
 import AchievementsSection from "./_components/achievements-section.tsx";
 import FunNudge from "./_components/fun-nudge.tsx";
+import BudgetAlerts from "./_components/budget-alerts.tsx";
 import ProfileAvatarButton from "@/components/profile-avatar-button.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card.tsx";
@@ -78,6 +79,10 @@ function IndexInner() {
 
         <div className="mt-6">
           <FunNudge user={user} />
+        </div>
+
+        <div className="mt-6">
+          <BudgetAlerts />
         </div>
 
         <Card className="mt-6 border-2 border-blue-300 bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 dark:border-blue-700 dark:from-blue-950/50 dark:via-purple-950/50 dark:to-pink-950/50">
@@ -160,6 +165,33 @@ function IndexInner() {
             </CardContent>
           </Card>
         )}
+
+        <Card className="mt-6 border-2 border-indigo-300 bg-gradient-to-r from-indigo-50 to-violet-50 dark:border-indigo-700 dark:from-indigo-950/50 dark:to-violet-950/50">
+          <CardHeader>
+            <div className="flex items-start justify-between">
+              <div className="flex items-center gap-3">
+                <div className="text-4xl">💰</div>
+                <div>
+                  <CardTitle className="text-xl text-indigo-900 dark:text-indigo-100">
+                    Budget Limits & Alerts
+                  </CardTitle>
+                  <CardDescription className="mt-1">
+                    Set spending limits for categories and get notified when you're close to them
+                  </CardDescription>
+                </div>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <Button
+              size="lg"
+              className="w-full bg-gradient-to-r from-indigo-500 to-violet-500 text-lg font-bold hover:from-indigo-600 hover:to-violet-600"
+              onClick={() => navigate("/budgets")}
+            >
+              Manage Budgets
+            </Button>
+          </CardContent>
+        </Card>
 
         <div className="mt-6 grid gap-3 sm:grid-cols-2">
           <Button

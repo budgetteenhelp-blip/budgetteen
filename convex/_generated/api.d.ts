@@ -14,6 +14,7 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as analytics from "../analytics.js";
+import type * as budgets from "../budgets.js";
 import type * as categories from "../categories.js";
 import type * as export_ from "../export.js";
 import type * as gamification from "../gamification.js";
@@ -34,6 +35,7 @@ import type * as worlds from "../worlds.js";
  */
 declare const fullApi: ApiFromModules<{
   analytics: typeof analytics;
+  budgets: typeof budgets;
   categories: typeof categories;
   export: typeof export_;
   gamification: typeof gamification;

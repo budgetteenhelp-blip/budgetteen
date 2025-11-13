@@ -79,4 +79,33 @@ export default defineSchema({
   })
     .index("by_user", ["userId"])
     .index("by_user_and_world", ["userId", "worldId"]),
+
+  budgetLimits: defineTable({
+    userId: v.id("users"),
+    category: v.string(),
+    limitAmount: v.number(),
+    period: v.union(v.literal("weekly"), v.literal("monthly")),
+    alertThreshold: v.number(), // Percentage (e.g., 80 means alert at 80%)
+    isActive: v.boolean(),
+  })
+    .index("by_user", ["userId"])
+    .index("by_user_and_category", ["userId", "category"]),
+
+  spendingAlerts: defineTable({
+    userId: v.id("users"),
+    category: v.string(),
+    message: v.string(),
+    severity: v.union(
+      v.literal("warning"),
+      v.literal("danger"),
+      v.literal("exceeded"),
+    ),
+    spentAmount: v.number(),
+    limitAmount: v.number(),
+    percentage: v.number(),
+    isRead: v.boolean(),
+    createdAt: v.number(),
+  })
+    .index("by_user", ["userId"])
+    .index("by_user_and_read", ["userId", "isRead"]),
 });

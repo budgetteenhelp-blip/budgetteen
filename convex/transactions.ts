@@ -75,6 +75,14 @@ export const add = mutation({
       userId: user._id,
     });
 
+    // Check budget limits if this is an expense
+    if (args.type === "expense") {
+      await ctx.scheduler.runAfter(0, internal.budgets.checkBudgetAndCreateAlert, {
+        userId: user._id,
+        category: args.category,
+      });
+    }
+
     return transactionId;
   },
 });
