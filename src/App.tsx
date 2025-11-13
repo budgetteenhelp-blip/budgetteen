@@ -2,6 +2,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { DefaultProviders } from "./components/providers/default.tsx";
 import AuthCallback from "./pages/auth/Callback.tsx";
 import Index from "./pages/Index.tsx";
+import MoneyPage from "./pages/money/page.tsx";
+import MorePage from "./pages/more/page.tsx";
 import QuizPage from "./pages/quiz/page.tsx";
 import LearnPage from "./pages/learn/page.tsx";
 import World1Page from "./pages/learn/world/1/page.tsx";
@@ -24,6 +26,8 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/money" element={<MoneyPage />} />
+          <Route path="/more" element={<MorePage />} />
           <Route path="/quiz" element={<QuizPage />} />
           <Route path="/learn" element={<LearnPage />} />
           <Route path="/profile" element={<ProfilePage />} />

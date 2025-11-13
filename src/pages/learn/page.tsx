@@ -4,9 +4,10 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api.js";
 import { SignInButton } from "@/components/ui/signin.tsx";
 import { Skeleton } from "@/components/ui/skeleton.tsx";
+import { BottomTabBar } from "@/components/bottom-tab-bar.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card.tsx";
-import { ArrowLeftIcon, LockIcon, StarIcon, TrophyIcon } from "lucide-react";
+import { LockIcon, StarIcon, TrophyIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils.ts";
 import ProfileAvatarButton from "@/components/profile-avatar-button.tsx";
@@ -128,21 +129,15 @@ function LearnInner() {
   ).length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 dark:from-blue-950 dark:via-purple-950 dark:to-pink-950">
-      <div className="mx-auto max-w-6xl p-4 pb-24 md:p-6">
-        <div className="mb-6 flex items-center justify-between gap-4">
-          <Button variant="ghost" onClick={() => navigate("/")}>
-            <ArrowLeftIcon className="mr-2 size-4" />
-            Back to Dashboard
-          </Button>
-          <div className="flex items-center gap-2">
-            <ProfileAvatarButton />
-            <img
-              src="https://cdn.hercules.app/file_n1wHwb8O3RpaBvvNN8Ed9RBI"
-              alt="Budget Teen Logo"
-              className="size-10"
-            />
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 pb-20 dark:from-blue-950 dark:via-purple-950 dark:to-pink-950">
+      <div className="mx-auto max-w-6xl p-4 md:p-6">
+        <div className="mb-6 flex items-center justify-end gap-2">
+          <ProfileAvatarButton />
+          <img
+            src="https://cdn.hercules.app/file_n1wHwb8O3RpaBvvNN8Ed9RBI"
+            alt="Budget Teen Logo"
+            className="size-10"
+          />
         </div>
 
         <div className="mb-8 text-center">
@@ -299,6 +294,8 @@ function LearnInner() {
           </CardContent>
         </Card>
       </div>
+
+      <BottomTabBar />
     </div>
   );
 }

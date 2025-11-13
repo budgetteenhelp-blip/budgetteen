@@ -2,238 +2,267 @@ import { useState, useEffect } from "react";
 import { Authenticated, Unauthenticated, AuthLoading } from "convex/react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api.js";
+import type { Doc } from "@/convex/_generated/dataModel.d.ts";
 import { SignInButton } from "@/components/ui/signin.tsx";
 import { Skeleton } from "@/components/ui/skeleton.tsx";
-import Dashboard from "./_components/dashboard.tsx";
-import AddTransactionDialog from "./_components/add-transaction-dialog.tsx";
-import TransactionList from "./_components/transaction-list.tsx";
-import SpendingChart from "./_components/spending-chart.tsx";
-import BalanceChart from "./_components/balance-chart.tsx";
-import GoalsSection from "./_components/goals-section.tsx";
-import LevelBadge from "./_components/level-badge.tsx";
-import AchievementsSection from "./_components/achievements-section.tsx";
-import FunNudge from "./_components/fun-nudge.tsx";
-import BudgetAlerts from "./_components/budget-alerts.tsx";
+import { BottomTabBar } from "@/components/bottom-tab-bar.tsx";
 import ProfileAvatarButton from "@/components/profile-avatar-button.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card.tsx";
-import { PlusIcon, BrainIcon, GraduationCapIcon } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card.tsx";
+import { PlusIcon, TrendingUpIcon, TrendingDownIcon, GraduationCapIcon, BrainIcon, TrophyIcon, FlameIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 function IndexInner() {
   const user = useQuery(api.users.getCurrentUser);
+  const recentTransactions = useQuery(api.transactions.getRecent, { limit: 5 });
+  const gamification = useQuery(api.gamification.getUserStats);
   const quizResult = useQuery(api.quiz.getLatestQuizResult);
-  const [showAddDialog, setShowAddDialog] = useState(false);
-  const [transactionType, setTransactionType] = useState<"income" | "expense">("income");
   const navigate = useNavigate();
   const recalculateLevel = useMutation(api.worlds.recalculateLevel);
 
-  // Auto-fix level on load
   useEffect(() => {
     if (user) {
-      recalculateLevel().catch(() => {
-        // Silently fail if there's an error
-      });
+      recalculateLevel().catch(() => {});
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?._id]);
 
-  if (!user) {
+  if (!user || !gamification) {
     return (
       <div className="flex min-h-screen items-center justify-center p-4">
-        <Skeleton className="h-96 w-full max-w-4xl" />
+        <Skeleton className="h-96 w-full max-w-2xl" />
       </div>
     );
   }
 
+  const balance = user.currentBalance;
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 dark:from-orange-950 dark:via-amber-950 dark:to-yellow-950">
-      <div className="mx-auto max-w-4xl p-4 pb-24 md:p-6">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 pb-20 dark:from-orange-950 dark:via-amber-950 dark:to-yellow-950">
+      <div className="mx-auto max-w-2xl p-4 md:p-6">
+        {/* Header */}
         <div className="mb-6 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <img 
               src="https://cdn.hercules.app/file_n1wHwb8O3RpaBvvNN8Ed9RBI" 
               alt="Budget Teen Logo" 
-              className="size-12 md:size-14"
+              className="size-12"
             />
             <div>
-              <h1 className="text-2xl font-bold text-orange-900 dark:text-orange-100 md:text-3xl">
+              <h1 className="text-xl font-bold text-orange-900 dark:text-orange-100 md:text-2xl">
                 Hey, {user.name?.split(" ")[0] || "there"}! 👋
               </h1>
               <p className="text-sm text-orange-700 dark:text-orange-300">
-                Let's manage your money like a pro
+                {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <ProfileAvatarButton />
-            <SignInButton variant="ghost" />
-          </div>
+          <ProfileAvatarButton />
         </div>
 
-        <Dashboard user={user} />
-
-        <div className="mt-6">
-          <LevelBadge />
-        </div>
-
-        <div className="mt-6">
-          <FunNudge user={user} />
-        </div>
-
-        <div className="mt-6">
-          <BudgetAlerts />
-        </div>
-
-        <Card className="mt-6 border-2 border-blue-300 bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 dark:border-blue-700 dark:from-blue-950/50 dark:via-purple-950/50 dark:to-pink-950/50">
-          <CardHeader>
-            <div className="flex items-start justify-between">
-              <div className="flex items-center gap-3">
-                <div className="text-4xl">🎓</div>
-                <div>
-                  <CardTitle className="text-xl text-blue-900 dark:text-blue-100">
-                    Learning Adventure Awaits!
-                  </CardTitle>
-                  <CardDescription className="mt-1">
-                    Master money skills through 8 interactive worlds filled with games and challenges
-                  </CardDescription>
+        {/* Level and Streak */}
+        <div className="mb-6 grid gap-3 sm:grid-cols-2">
+          <Card className="border-2 border-purple-300 bg-gradient-to-br from-purple-50 to-pink-50 dark:border-purple-700 dark:from-purple-950/50 dark:to-pink-950/50">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center justify-between text-purple-900 dark:text-purple-100">
+                <span className="text-lg">Level {gamification.level}</span>
+                <span className="text-2xl">⭐</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                <div className="flex items-baseline gap-2">
+                  <span className="text-2xl font-bold text-purple-900 dark:text-purple-100">
+                    {gamification.xp.toLocaleString()}
+                  </span>
+                  <span className="text-sm text-muted-foreground">XP</span>
                 </div>
+                <p className="text-xs text-muted-foreground">
+                  Keep learning & tracking to level up!
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-2 border-orange-300 bg-gradient-to-br from-orange-50 to-yellow-50 dark:border-orange-700 dark:from-orange-950/50 dark:to-yellow-950/50">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center justify-between text-orange-900 dark:text-orange-100">
+                <span className="text-lg">{gamification.currentStreak} Day Streak</span>
+                <FlameIcon className="size-6 fill-orange-500 text-orange-500" />
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                <div className="flex items-baseline gap-2">
+                  <span className="text-2xl font-bold text-orange-900 dark:text-orange-100">
+                    {gamification.completedGoals}
+                  </span>
+                  <span className="text-sm text-muted-foreground">Goals Done</span>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Keep tracking daily to maintain your streak!
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Quick Stats */}
+        <Card className="mb-6">
+          <CardHeader>
+            <CardTitle className="text-lg">Your Money at a Glance</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid gap-4 sm:grid-cols-3">
+              <div className="space-y-1">
+                <p className="text-xs text-muted-foreground">Current Balance</p>
+                <p className={`text-2xl font-bold ${balance >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
+                  ${Math.abs(balance).toFixed(2)}
+                </p>
+              </div>
+              <div className="space-y-1">
+                <p className="text-xs text-muted-foreground">Total Income</p>
+                <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
+                  ${user.totalIncome.toFixed(2)}
+                </p>
+              </div>
+              <div className="space-y-1">
+                <p className="text-xs text-muted-foreground">Total Expenses</p>
+                <p className="text-2xl font-bold text-rose-600 dark:text-rose-400">
+                  ${user.totalExpenses.toFixed(2)}
+                </p>
               </div>
             </div>
-          </CardHeader>
-          <CardContent>
             <Button
-              size="lg"
-              className="w-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-lg font-bold hover:from-blue-600 hover:via-purple-600 hover:to-pink-600"
-              onClick={() => navigate("/learn")}
+              className="w-full bg-gradient-to-r from-blue-500 to-purple-500 font-semibold hover:from-blue-600 hover:to-purple-600"
+              onClick={() => navigate("/money")}
             >
-              <GraduationCapIcon className="mr-2 size-5" />
-              Start Learning Journey
+              View Full Analytics
             </Button>
           </CardContent>
         </Card>
 
-        {!quizResult && (
-          <Card className="mt-6 border-2 border-purple-300 bg-gradient-to-r from-purple-50 to-pink-50 dark:border-purple-700 dark:from-purple-950/50 dark:to-pink-950/50">
-            <CardHeader>
-              <div className="flex items-start justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="text-4xl">🧠</div>
-                  <div>
-                    <CardTitle className="text-xl text-purple-900 dark:text-purple-100">
-                      Discover Your Money Personality!
-                    </CardTitle>
-                    <CardDescription className="mt-1">
-                      Take our fun quiz to learn your financial style and get personalized tips
-                    </CardDescription>
+        {/* Quick Actions */}
+        <div className="mb-6 grid gap-3 sm:grid-cols-2">
+          <Button
+            size="lg"
+            className="h-16 bg-gradient-to-r from-green-500 to-emerald-500 text-lg font-bold shadow-lg hover:from-green-600 hover:to-emerald-600"
+            onClick={() => navigate("/money?action=add-income")}
+          >
+            <PlusIcon className="mr-2 size-5" />
+            Add Income 💵
+          </Button>
+          <Button
+            size="lg"
+            className="h-16 bg-gradient-to-r from-pink-500 to-rose-500 text-lg font-bold shadow-lg hover:from-pink-600 hover:to-rose-600"
+            onClick={() => navigate("/money?action=add-expense")}
+          >
+            <PlusIcon className="mr-2 size-5" />
+            Add Expense 💸
+          </Button>
+        </div>
+
+        {/* Recent Transactions */}
+        <Card className="mb-6">
+          <CardHeader className="flex flex-row items-center justify-between pb-3">
+            <CardTitle className="text-lg">Recent Transactions</CardTitle>
+            <Button variant="ghost" size="sm" onClick={() => navigate("/money")}>
+              View All
+            </Button>
+          </CardHeader>
+          <CardContent>
+            {!recentTransactions || recentTransactions.length === 0 ? (
+              <p className="py-8 text-center text-sm text-muted-foreground">
+                No transactions yet. Add your first one above! 🚀
+              </p>
+            ) : (
+              <div className="space-y-3">
+                {recentTransactions.slice(0, 5).map((transaction: Doc<"transactions">) => (
+                  <div
+                    key={transaction._id}
+                    className="flex items-center justify-between rounded-lg border p-3"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className={`rounded-full p-2 ${transaction.type === 'income' ? 'bg-green-100 dark:bg-green-900/30' : 'bg-rose-100 dark:bg-rose-900/30'}`}>
+                        {transaction.type === 'income' ? (
+                          <TrendingUpIcon className="size-4 text-green-600 dark:text-green-400" />
+                        ) : (
+                          <TrendingDownIcon className="size-4 text-rose-600 dark:text-rose-400" />
+                        )}
+                      </div>
+                      <div>
+                        <p className="font-medium">{transaction.category}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {new Date(transaction.date).toLocaleDateString()}
+                        </p>
+                      </div>
+                    </div>
+                    <p className={`font-bold ${transaction.type === 'income' ? 'text-green-600 dark:text-green-400' : 'text-rose-600 dark:text-rose-400'}`}>
+                      {transaction.type === 'income' ? '+' : '-'}${transaction.amount.toFixed(2)}
+                    </p>
                   </div>
-                </div>
+                ))}
               </div>
-            </CardHeader>
-            <CardContent>
-              <Button
-                size="lg"
-                className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-lg font-bold hover:from-purple-600 hover:to-pink-600"
-                onClick={() => navigate("/quiz")}
-              >
-                <BrainIcon className="mr-2 size-5" />
-                Take the Quiz (2 min)
-              </Button>
-            </CardContent>
-          </Card>
-        )}
+            )}
+          </CardContent>
+        </Card>
 
-        {quizResult && (
-          <Card className="mt-6 border-2 border-purple-300 bg-gradient-to-r from-purple-50 to-pink-50 dark:border-purple-700 dark:from-purple-950/50 dark:to-pink-950/50">
-            <CardHeader>
-              <CardTitle className="text-xl text-purple-900 dark:text-purple-100">
-                Your Money Personality: {quizResult.personalityType}
+        {/* Feature Cards */}
+        <div className="space-y-3">
+          <Card className="border-2 border-blue-300 bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 dark:border-blue-700 dark:from-blue-950/50 dark:via-purple-950/50 dark:to-pink-950/50">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center gap-2 text-blue-900 dark:text-blue-100">
+                <GraduationCapIcon className="size-5" />
+                Learning Adventure
               </CardTitle>
-              <CardDescription>
-                You scored {quizResult.score}/60 points
-              </CardDescription>
             </CardHeader>
             <CardContent>
+              <p className="mb-3 text-sm text-muted-foreground">
+                Master money skills through 8 interactive worlds filled with games and challenges
+              </p>
               <Button
-                variant="outline"
-                className="w-full"
-                onClick={() => navigate("/quiz")}
+                className="w-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 font-bold hover:from-blue-600 hover:via-purple-600 hover:to-pink-600"
+                onClick={() => navigate("/learn")}
               >
-                <BrainIcon className="mr-2 size-4" />
-                Retake Quiz
-              </Button>
-            </CardContent>
-          </Card>
-        )}
-
-        <div className="mt-6 grid gap-4 md:grid-cols-3">
-          <Card className="border-2 border-indigo-300 bg-gradient-to-r from-indigo-50 to-violet-50 dark:border-indigo-700 dark:from-indigo-950/50 dark:to-violet-950/50">
-            <CardHeader>
-              <div className="flex items-center gap-3">
-                <div className="text-3xl">💰</div>
-                <div>
-                  <CardTitle className="text-lg text-indigo-900 dark:text-indigo-100">
-                    Budget Limits
-                  </CardTitle>
-                  <CardDescription className="mt-1 text-xs">
-                    Track spending limits
-                  </CardDescription>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <Button
-                size="sm"
-                className="w-full bg-gradient-to-r from-indigo-500 to-violet-500 font-bold hover:from-indigo-600 hover:to-violet-600"
-                onClick={() => navigate("/budgets")}
-              >
-                Manage Budgets
+                Start Learning
               </Button>
             </CardContent>
           </Card>
 
-          <Card className="border-2 border-purple-300 bg-gradient-to-r from-purple-50 to-fuchsia-50 dark:border-purple-700 dark:from-purple-950/50 dark:to-fuchsia-950/50">
-            <CardHeader>
-              <div className="flex items-center gap-3">
-                <div className="text-3xl">🏷️</div>
-                <div>
-                  <CardTitle className="text-lg text-purple-900 dark:text-purple-100">
-                    Custom Categories
-                  </CardTitle>
-                  <CardDescription className="mt-1 text-xs">
-                    Create your own labels
-                  </CardDescription>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <Button
-                size="sm"
-                className="w-full bg-gradient-to-r from-purple-500 to-fuchsia-500 font-bold hover:from-purple-600 hover:to-fuchsia-600"
-                onClick={() => navigate("/categories")}
-              >
-                Manage Categories
-              </Button>
-            </CardContent>
-          </Card>
+          {!quizResult && (
+            <Card className="border-2 border-purple-300 bg-gradient-to-r from-purple-50 to-pink-50 dark:border-purple-700 dark:from-purple-950/50 dark:to-pink-950/50">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-purple-900 dark:text-purple-100">
+                  <BrainIcon className="size-5" />
+                  Money Personality Quiz
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="mb-3 text-sm text-muted-foreground">
+                  Discover your financial style and get personalized tips
+                </p>
+                <Button
+                  className="w-full bg-gradient-to-r from-purple-500 to-pink-500 font-bold hover:from-purple-600 hover:to-pink-600"
+                  onClick={() => navigate("/quiz")}
+                >
+                  Take Quiz (2 min)
+                </Button>
+              </CardContent>
+            </Card>
+          )}
 
           <Card className="border-2 border-yellow-300 bg-gradient-to-r from-yellow-50 to-orange-50 dark:border-yellow-700 dark:from-yellow-950/50 dark:to-orange-950/50">
-            <CardHeader>
-              <div className="flex items-center gap-3">
-                <div className="text-3xl">🏆</div>
-                <div>
-                  <CardTitle className="text-lg text-yellow-900 dark:text-yellow-100">
-                    Challenges
-                  </CardTitle>
-                  <CardDescription className="mt-1 text-xs">
-                    Earn bonus XP
-                  </CardDescription>
-                </div>
-              </div>
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center gap-2 text-yellow-900 dark:text-yellow-100">
+                <TrophyIcon className="size-5" />
+                Weekly Challenges
+              </CardTitle>
             </CardHeader>
             <CardContent>
+              <p className="mb-3 text-sm text-muted-foreground">
+                Complete challenges to earn bonus XP and unlock achievements
+              </p>
               <Button
-                size="sm"
                 className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 font-bold hover:from-yellow-600 hover:to-orange-600"
                 onClick={() => navigate("/challenges")}
               >
@@ -242,49 +271,9 @@ function IndexInner() {
             </CardContent>
           </Card>
         </div>
-
-        <div className="mt-6 grid gap-3 sm:grid-cols-2">
-          <Button
-            size="lg"
-            className="h-16 bg-gradient-to-r from-green-500 to-emerald-500 text-lg font-bold shadow-lg hover:from-green-600 hover:to-emerald-600"
-            onClick={() => {
-              setTransactionType("income");
-              setShowAddDialog(true);
-            }}
-          >
-            <PlusIcon className="mr-2 size-6" />
-            Add Income 💵
-          </Button>
-          <Button
-            size="lg"
-            className="h-16 bg-gradient-to-r from-pink-500 to-rose-500 text-lg font-bold shadow-lg hover:from-pink-600 hover:to-rose-600"
-            onClick={() => {
-              setTransactionType("expense");
-              setShowAddDialog(true);
-            }}
-          >
-            <PlusIcon className="mr-2 size-6" />
-            Add Expense 💸
-          </Button>
-        </div>
-
-        <div className="mt-6 grid gap-6 lg:grid-cols-2">
-          <BalanceChart />
-          <SpendingChart />
-        </div>
-
-        <GoalsSection />
-
-        <AchievementsSection />
-
-        <TransactionList />
-
-        <AddTransactionDialog
-          open={showAddDialog}
-          onOpenChange={setShowAddDialog}
-          type={transactionType}
-        />
       </div>
+
+      <BottomTabBar />
     </div>
   );
 }
@@ -322,7 +311,7 @@ export default function Index() {
       </Unauthenticated>
       <AuthLoading>
         <div className="flex min-h-screen items-center justify-center">
-          <Skeleton className="h-96 w-full max-w-4xl" />
+          <Skeleton className="h-96 w-full max-w-2xl" />
         </div>
       </AuthLoading>
       <Authenticated>
