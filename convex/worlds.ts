@@ -1,6 +1,7 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { ConvexError } from "convex/values";
+import { internal } from "./_generated/api.js";
 
 // Helper function to calculate cumulative XP needed for a level
 function getXPForLevel(level: number): number {
@@ -154,6 +155,22 @@ export const completeLesson = mutation({
       level: newLevel,
     });
 
+    // Update challenge progress for lessons
+    if (!progress.completedLessons.includes(args.lessonId)) {
+      await ctx.scheduler.runAfter(0, internal.challenges.updateChallengeProgress, {
+        userId: user._id,
+        challengeType: "lessons",
+      });
+    }
+
+    // Update challenge progress for level ups
+    if (newLevel > currentLevel) {
+      await ctx.scheduler.runAfter(0, internal.challenges.updateChallengeProgress, {
+        userId: user._id,
+        challengeType: "level",
+      });
+    }
+
     // Define lessons per world
     const lessonsPerWorld: Record<number, number> = {
       1: 6,
@@ -168,6 +185,8 @@ export const completeLesson = mutation({
 
     // Check if world is completed and unlock next world
     const totalLessons = lessonsPerWorld[args.worldId] || 6;
+    const worldJustCompleted = completedLessons.length === totalLessons && !progress.completedLessons.includes(args.lessonId);
+    
     if (completedLessons.length === totalLessons && args.worldId < 8) {
       const nextWorldId = args.worldId + 1;
 
@@ -194,6 +213,14 @@ export const completeLesson = mutation({
           stars: 0,
         });
       }
+    }
+
+    // Update challenge progress for world completion
+    if (worldJustCompleted) {
+      await ctx.scheduler.runAfter(0, internal.challenges.updateChallengeProgress, {
+        userId: user._id,
+        challengeType: "worlds",
+      });
     }
 
     return { success: true };

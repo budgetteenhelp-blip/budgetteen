@@ -154,6 +154,12 @@ export const updateProgress = mutation({
         amount: 100,
         reason: "goal_completed",
       });
+
+      // Update challenge progress for completed goals
+      await ctx.scheduler.runAfter(0, internal.challenges.updateChallengeProgress, {
+        userId: user._id,
+        challengeType: "goals",
+      });
     }
 
     await ctx.scheduler.runAfter(0, internal.gamification.checkAndAwardAchievements, {

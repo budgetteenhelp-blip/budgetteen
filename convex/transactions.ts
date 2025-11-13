@@ -83,6 +83,21 @@ export const add = mutation({
       });
     }
 
+    // Update challenge progress for transactions
+    await ctx.scheduler.runAfter(0, internal.challenges.updateChallengeProgress, {
+      userId: user._id,
+      challengeType: "transactions",
+    });
+
+    // Update challenge progress for savings (if income)
+    if (args.type === "income") {
+      await ctx.scheduler.runAfter(0, internal.challenges.updateChallengeProgress, {
+        userId: user._id,
+        challengeType: "savings",
+        amount: args.amount,
+      });
+    }
+
     return transactionId;
   },
 });

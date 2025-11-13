@@ -166,7 +166,7 @@ function IndexInner() {
           </Card>
         )}
 
-        <div className="mt-6 grid gap-4 md:grid-cols-2">
+        <div className="mt-6 grid gap-4 md:grid-cols-3">
           <Card className="border-2 border-indigo-300 bg-gradient-to-r from-indigo-50 to-violet-50 dark:border-indigo-700 dark:from-indigo-950/50 dark:to-violet-950/50">
             <CardHeader>
               <div className="flex items-center gap-3">
@@ -213,6 +213,31 @@ function IndexInner() {
                 onClick={() => navigate("/categories")}
               >
                 Manage Categories
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="border-2 border-yellow-300 bg-gradient-to-r from-yellow-50 to-orange-50 dark:border-yellow-700 dark:from-yellow-950/50 dark:to-orange-950/50">
+            <CardHeader>
+              <div className="flex items-center gap-3">
+                <div className="text-3xl">🏆</div>
+                <div>
+                  <CardTitle className="text-lg text-yellow-900 dark:text-yellow-100">
+                    Challenges
+                  </CardTitle>
+                  <CardDescription className="mt-1 text-xs">
+                    Earn bonus XP
+                  </CardDescription>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <Button
+                size="sm"
+                className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 font-bold hover:from-yellow-600 hover:to-orange-600"
+                onClick={() => navigate("/challenges")}
+              >
+                View Challenges
               </Button>
             </CardContent>
           </Card>

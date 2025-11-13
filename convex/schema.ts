@@ -108,4 +108,25 @@ export default defineSchema({
   })
     .index("by_user", ["userId"])
     .index("by_user_and_read", ["userId", "isRead"]),
+
+  challenges: defineTable({
+    challengeId: v.string(),
+    period: v.union(v.literal("weekly"), v.literal("monthly")),
+    startDate: v.number(),
+    endDate: v.number(),
+    isActive: v.boolean(),
+  }).index("by_period_and_active", ["period", "isActive"]),
+
+  userChallenges: defineTable({
+    userId: v.id("users"),
+    challengeId: v.string(),
+    progress: v.number(),
+    target: v.number(),
+    isCompleted: v.boolean(),
+    completedAt: v.optional(v.number()),
+    claimedReward: v.boolean(),
+  })
+    .index("by_user", ["userId"])
+    .index("by_user_and_challenge", ["userId", "challengeId"])
+    .index("by_user_and_completed", ["userId", "isCompleted"]),
 });
