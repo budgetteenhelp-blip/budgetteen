@@ -166,32 +166,57 @@ function IndexInner() {
           </Card>
         )}
 
-        <Card className="mt-6 border-2 border-indigo-300 bg-gradient-to-r from-indigo-50 to-violet-50 dark:border-indigo-700 dark:from-indigo-950/50 dark:to-violet-950/50">
-          <CardHeader>
-            <div className="flex items-start justify-between">
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
+          <Card className="border-2 border-indigo-300 bg-gradient-to-r from-indigo-50 to-violet-50 dark:border-indigo-700 dark:from-indigo-950/50 dark:to-violet-950/50">
+            <CardHeader>
               <div className="flex items-center gap-3">
-                <div className="text-4xl">💰</div>
+                <div className="text-3xl">💰</div>
                 <div>
-                  <CardTitle className="text-xl text-indigo-900 dark:text-indigo-100">
-                    Budget Limits & Alerts
+                  <CardTitle className="text-lg text-indigo-900 dark:text-indigo-100">
+                    Budget Limits
                   </CardTitle>
-                  <CardDescription className="mt-1">
-                    Set spending limits for categories and get notified when you're close to them
+                  <CardDescription className="mt-1 text-xs">
+                    Track spending limits
                   </CardDescription>
                 </div>
               </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <Button
-              size="lg"
-              className="w-full bg-gradient-to-r from-indigo-500 to-violet-500 text-lg font-bold hover:from-indigo-600 hover:to-violet-600"
-              onClick={() => navigate("/budgets")}
-            >
-              Manage Budgets
-            </Button>
-          </CardContent>
-        </Card>
+            </CardHeader>
+            <CardContent>
+              <Button
+                size="sm"
+                className="w-full bg-gradient-to-r from-indigo-500 to-violet-500 font-bold hover:from-indigo-600 hover:to-violet-600"
+                onClick={() => navigate("/budgets")}
+              >
+                Manage Budgets
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="border-2 border-purple-300 bg-gradient-to-r from-purple-50 to-fuchsia-50 dark:border-purple-700 dark:from-purple-950/50 dark:to-fuchsia-950/50">
+            <CardHeader>
+              <div className="flex items-center gap-3">
+                <div className="text-3xl">🏷️</div>
+                <div>
+                  <CardTitle className="text-lg text-purple-900 dark:text-purple-100">
+                    Custom Categories
+                  </CardTitle>
+                  <CardDescription className="mt-1 text-xs">
+                    Create your own labels
+                  </CardDescription>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <Button
+                size="sm"
+                className="w-full bg-gradient-to-r from-purple-500 to-fuchsia-500 font-bold hover:from-purple-600 hover:to-fuchsia-600"
+                onClick={() => navigate("/categories")}
+              >
+                Manage Categories
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
 
         <div className="mt-6 grid gap-3 sm:grid-cols-2">
           <Button

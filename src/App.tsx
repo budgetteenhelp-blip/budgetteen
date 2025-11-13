@@ -14,6 +14,7 @@ import World7Page from "./pages/learn/world/7/page.tsx";
 import World8Page from "./pages/learn/world/8/page.tsx";
 import ProfilePage from "./pages/profile/page.tsx";
 import BudgetsPage from "./pages/budgets/page.tsx";
+import CategoriesPage from "./pages/categories/page.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 export default function App() {
@@ -34,6 +35,7 @@ export default function App() {
           <Route path="/learn/world/7" element={<World7Page />} />
           <Route path="/learn/world/8" element={<World8Page />} />
           <Route path="/budgets" element={<BudgetsPage />} />
+          <Route path="/categories" element={<CategoriesPage />} />
           <Route path="/auth/callback" element={<AuthCallback />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
