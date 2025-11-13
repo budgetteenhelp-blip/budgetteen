@@ -28,42 +28,60 @@ const SKIN_TONES: CustomizationOption[] = [
 ];
 
 const HAIR_STYLES: CustomizationOption[] = [
+  { id: "bald", name: "Bald", unlockLevel: 0, preview: "🔆" },
   { id: "short", name: "Short", unlockLevel: 0, preview: "✂️" },
-  { id: "long", name: "Long", unlockLevel: 1, preview: "💇" },
-  { id: "curly", name: "Curly", unlockLevel: 2, preview: "🌀" },
+  { id: "buzzcut", name: "Buzzcut", unlockLevel: 0, preview: "💈" },
+  { id: "crew", name: "Crew Cut", unlockLevel: 1, preview: "🧑" },
+  { id: "side_part", name: "Side Part", unlockLevel: 1, preview: "🎩" },
+  { id: "spiky", name: "Spiky", unlockLevel: 2, preview: "🦔" },
+  { id: "long", name: "Long", unlockLevel: 2, preview: "💇" },
+  { id: "wavy", name: "Wavy", unlockLevel: 3, preview: "🌊" },
   { id: "ponytail", name: "Ponytail", unlockLevel: 3, preview: "🎀" },
-  { id: "mohawk", name: "Mohawk", unlockLevel: 5, preview: "🔥" },
+  { id: "buns", name: "Buns", unlockLevel: 4, preview: "🍡" },
+  { id: "bob", name: "Bob", unlockLevel: 4, preview: "💁" },
+  { id: "pixie", name: "Pixie", unlockLevel: 5, preview: "🧚" },
+  { id: "braids", name: "Braids", unlockLevel: 5, preview: "🪢" },
+  { id: "curly", name: "Curly", unlockLevel: 6, preview: "🌀" },
+  { id: "afro", name: "Afro", unlockLevel: 6, preview: "🎆" },
 ];
 
 const HAIR_COLORS: CustomizationOption[] = [
-  { id: "#4A2511", name: "Brown", unlockLevel: 0, preview: "#4A2511" },
-  { id: "#000000", name: "Black", unlockLevel: 0, preview: "#000000" },
-  { id: "#FFD700", name: "Blonde", unlockLevel: 1, preview: "#FFD700" },
-  { id: "#DC143C", name: "Red", unlockLevel: 2, preview: "#DC143C" },
-  { id: "#9B59B6", name: "Purple", unlockLevel: 4, preview: "#9B59B6" },
-  { id: "#3498DB", name: "Blue", unlockLevel: 5, preview: "#3498DB" },
+  { id: "brown", name: "Brown", unlockLevel: 0, preview: "#8B4513" },
+  { id: "black", name: "Black", unlockLevel: 0, preview: "#2C2C2C" },
+  { id: "blonde", name: "Blonde", unlockLevel: 0, preview: "#FFD966" },
+  { id: "red", name: "Red", unlockLevel: 1, preview: "#FF6B6B" },
+  { id: "orange", name: "Orange", unlockLevel: 2, preview: "#FF8C42" },
+  { id: "purple", name: "Purple", unlockLevel: 3, preview: "#9B59B6" },
+  { id: "blue", name: "Blue", unlockLevel: 4, preview: "#3498DB" },
+  { id: "pink", name: "Pink", unlockLevel: 5, preview: "#FF69B4" },
+  { id: "green", name: "Green", unlockLevel: 6, preview: "#27AE60" },
 ];
 
 const OUTFITS: CustomizationOption[] = [
-  { id: "casual", name: "Casual", unlockLevel: 0, preview: "👕" },
-  { id: "sporty", name: "Sporty", unlockLevel: 2, preview: "🏃" },
-  { id: "formal", name: "Formal", unlockLevel: 4, preview: "👔" },
-  { id: "superhero", name: "Superhero", unlockLevel: 6, preview: "🦸" },
+  { id: "none", name: "None", unlockLevel: 0, preview: "⭕" },
 ];
 
 const ACCESSORIES: CustomizationOption[] = [
-  { id: "none", name: "None", unlockLevel: 0, preview: "❌" },
+  { id: "none", name: "None", unlockLevel: 0, preview: "⭕" },
   { id: "glasses", name: "Glasses", unlockLevel: 1, preview: "👓" },
-  { id: "headphones", name: "Headphones", unlockLevel: 3, preview: "🎧" },
+  { id: "sunglasses", name: "Sunglasses", unlockLevel: 2, preview: "🕶️" },
+  { id: "headband", name: "Headband", unlockLevel: 2, preview: "🎽" },
+  { id: "bow", name: "Bow", unlockLevel: 3, preview: "🎀" },
+  { id: "flower", name: "Flower", unlockLevel: 3, preview: "🌸" },
   { id: "cap", name: "Cap", unlockLevel: 4, preview: "🧢" },
-  { id: "crown", name: "Crown", unlockLevel: 7, preview: "👑" },
+  { id: "beanie", name: "Beanie", unlockLevel: 4, preview: "🎿" },
+  { id: "crown", name: "Crown", unlockLevel: 5, preview: "👑" },
+  { id: "halo", name: "Halo", unlockLevel: 6, preview: "😇" },
+  { id: "headphones", name: "Headphones", unlockLevel: 6, preview: "🎧" },
 ];
 
 const FACE_EXPRESSIONS: CustomizationOption[] = [
   { id: "happy", name: "Happy", unlockLevel: 0, preview: "😊" },
   { id: "excited", name: "Excited", unlockLevel: 1, preview: "🤩" },
-  { id: "cool", name: "Cool", unlockLevel: 2, preview: "😎" },
-  { id: "determined", name: "Determined", unlockLevel: 3, preview: "😤" },
+  { id: "laughing", name: "Laughing", unlockLevel: 2, preview: "😄" },
+  { id: "wink", name: "Wink", unlockLevel: 2, preview: "😉" },
+  { id: "cool", name: "Cool", unlockLevel: 3, preview: "😎" },
+  { id: "silly", name: "Silly", unlockLevel: 4, preview: "🤪" },
 ];
 
 function ProfileInner() {
@@ -75,13 +93,13 @@ function ProfileInner() {
 
   const [selectedCategory, setSelectedCategory] = useState<
     "skin" | "hair" | "outfit" | "accessories" | "expression"
-  >("outfit");
+  >("skin");
 
   const [previewAvatar, setPreviewAvatar] = useState({
     skinTone: user?.avatarSkinTone || "medium",
     hairStyle: user?.avatarHairStyle || "short",
-    hairColor: user?.avatarHairColor || "#4A2511",
-    outfit: user?.avatarOutfit || "casual",
+    hairColor: user?.avatarHairColor || "brown",
+    outfit: user?.avatarOutfit || "none",
     accessory: user?.avatarAccessory || "none",
     faceExpression: user?.avatarFaceExpression || "happy",
   });
@@ -133,7 +151,6 @@ function ProfileInner() {
   }
 
   const categories = [
-    { id: "outfit" as const, name: "Outfit", emoji: "👕" },
     { id: "skin" as const, name: "Skin", emoji: "🎨" },
     { id: "hair" as const, name: "Hair", emoji: "💇" },
     { id: "accessories" as const, name: "Accessories", emoji: "👓" },
