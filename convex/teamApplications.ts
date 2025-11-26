@@ -1,6 +1,7 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { ConvexError } from "convex/values";
+import { internal } from "./_generated/api";
 
 export const submitApplication = mutation({
   args: {
@@ -43,6 +44,8 @@ export const submitApplication = mutation({
       });
     }
 
+    const submittedAt = Date.now();
+
     const applicationId = await ctx.db.insert("teamApplications", {
       fullName: args.fullName.trim(),
       grade: args.grade.trim(),
@@ -52,8 +55,21 @@ export const submitApplication = mutation({
       whyJoin: args.whyJoin.trim(),
       skills: args.skills.trim(),
       email: args.email?.trim(),
-      submittedAt: Date.now(),
+      submittedAt,
       status: "pending",
+    });
+
+    // Send email notification asynchronously
+    await ctx.scheduler.runAfter(0, internal.emailActions.sendTeamApplicationEmail, {
+      fullName: args.fullName.trim(),
+      grade: args.grade.trim(),
+      gpa: args.gpa.trim(),
+      socialMediaExperience: args.socialMediaExperience.trim(),
+      extracurriculars: args.extracurriculars.trim(),
+      whyJoin: args.whyJoin.trim(),
+      skills: args.skills.trim(),
+      email: args.email?.trim(),
+      submittedAt,
     });
 
     return { applicationId, success: true };
