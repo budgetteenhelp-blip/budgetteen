@@ -131,6 +131,10 @@ export default defineSchema({
     .index("by_user_and_completed", ["userId", "isCompleted"]),
 
   teamApplications: defineTable({
+    applicationType: v.optional(v.union(
+      v.literal("social-media"),
+      v.literal("ambassador")
+    )),
     fullName: v.string(),
     grade: v.string(),
     gpa: v.string(),
@@ -146,5 +150,5 @@ export default defineSchema({
       v.literal("accepted"),
       v.literal("rejected")
     ),
-  }),
+  }).index("by_type", ["applicationType"]),
 });

@@ -5,6 +5,7 @@ import { internal } from "./_generated/api";
 
 export const submitApplication = mutation({
   args: {
+    applicationType: v.optional(v.union(v.literal("social-media"), v.literal("ambassador"))),
     fullName: v.string(),
     grade: v.string(),
     gpa: v.string(),
@@ -47,6 +48,7 @@ export const submitApplication = mutation({
     const submittedAt = Date.now();
 
     const applicationId = await ctx.db.insert("teamApplications", {
+      applicationType: args.applicationType,
       fullName: args.fullName.trim(),
       grade: args.grade.trim(),
       gpa: args.gpa.trim(),
@@ -61,6 +63,7 @@ export const submitApplication = mutation({
 
     // Send email notification asynchronously
     await ctx.scheduler.runAfter(0, internal.emailActions.sendTeamApplicationEmail, {
+      applicationType: args.applicationType,
       fullName: args.fullName.trim(),
       grade: args.grade.trim(),
       gpa: args.gpa.trim(),

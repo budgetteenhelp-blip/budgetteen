@@ -6,6 +6,7 @@ import { internalAction } from "./_generated/server";
 
 export const sendTeamApplicationEmail = internalAction({
   args: {
+    applicationType: v.optional(v.union(v.literal("social-media"), v.literal("ambassador"))),
     fullName: v.string(),
     grade: v.string(),
     gpa: v.string(),
@@ -23,6 +24,12 @@ export const sendTeamApplicationEmail = internalAction({
       dateStyle: "full",
       timeStyle: "short",
     });
+
+    const applicationType = !args.applicationType 
+      ? "Team Application (Legacy)" 
+      : args.applicationType === "social-media" 
+        ? "Social Media Team" 
+        : "Budget Teen Ambassador";
 
     const html = `
       <!DOCTYPE html>
@@ -57,7 +64,7 @@ export const sendTeamApplicationEmail = internalAction({
               font-weight: bold;
               color: #9a3412;
               display: inline-block;
-              min-width: 120px;
+              min-width: 150px;
             }
             .field-value {
               color: #333;
@@ -72,12 +79,16 @@ export const sendTeamApplicationEmail = internalAction({
           </style>
         </head>
         <body>
-          <h1>🎉 New Budget Teen Team Application</h1>
+          <h1>🎉 New Budget Teen Application</h1>
           
-          <p>A new team application has been submitted on <strong>${submittedDate}</strong></p>
+          <p>A new <strong>${applicationType}</strong> application has been submitted on <strong>${submittedDate}</strong></p>
 
           <h2>📋 Applicant Information</h2>
           <div class="info-section">
+            ${args.applicationType ? `<p>
+              <span class="field-label">Application Type:</span>
+              <span class="field-value">${applicationType}</span>
+            </p>` : ''}
             <p>
               <span class="field-label">Full Name:</span>
               <span class="field-value">${args.fullName}</span>
@@ -120,7 +131,7 @@ export const sendTeamApplicationEmail = internalAction({
       const result = await resend.emails.send({
         from: "Budget Teen Applications <onboarding@resend.dev>",
         to: ["budgetteen.help@gmail.com"],
-        subject: `New Team Application from ${args.fullName}`,
+        subject: `New ${applicationType} Application from ${args.fullName}`,
         html,
       });
 
