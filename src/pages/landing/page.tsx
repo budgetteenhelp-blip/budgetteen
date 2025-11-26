@@ -1,5 +1,5 @@
 import { LandingNav } from "@/components/landing-nav.tsx";
-import { Button } from "@/components/ui/button.tsx";
+import { SignInButton } from "@/components/ui/signin.tsx";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card.tsx";
 import { Link } from "react-router-dom";
 import { TrendingUpIcon, TargetIcon, TrophyIcon, SparklesIcon, GraduationCapIcon, ShieldCheckIcon } from "lucide-react";
@@ -32,14 +32,12 @@ export default function LandingPage() {
           </p>
 
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Link to="/">
-              <Button
-                size="lg"
-                className="h-16 bg-gradient-to-r from-orange-500 to-amber-500 px-12 text-xl font-bold shadow-2xl transition-transform hover:scale-105 hover:from-orange-600 hover:to-amber-600"
-              >
-                Make an Account - It's Free! 🚀
-              </Button>
-            </Link>
+            <SignInButton
+              size="lg"
+              signInText="Make an Account - It's Free! 🚀"
+              showIcon={false}
+              className="h-16 bg-gradient-to-r from-orange-500 to-amber-500 px-12 text-xl font-bold shadow-2xl transition-transform hover:scale-105 hover:from-orange-600 hover:to-amber-600"
+            />
           </div>
 
           <p className="mt-4 text-sm text-muted-foreground">
@@ -152,14 +150,12 @@ export default function LandingPage() {
           <p className="mb-8 text-xl text-white/90">
             Join Budget Teen today and start your journey to financial freedom!
           </p>
-          <Link to="/">
-            <Button
-              size="lg"
-              className="h-16 bg-white px-12 text-xl font-bold text-orange-600 shadow-xl transition-transform hover:scale-105 hover:bg-gray-50"
-            >
-              Create Your Free Account
-            </Button>
-          </Link>
+          <SignInButton
+            size="lg"
+            signInText="Create Your Free Account"
+            showIcon={false}
+            className="h-16 bg-white px-12 text-xl font-bold text-orange-600 shadow-xl transition-transform hover:scale-105 hover:bg-gray-50"
+          />
         </div>
       </section>
 

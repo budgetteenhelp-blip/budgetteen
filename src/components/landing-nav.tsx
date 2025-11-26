@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button.tsx";
+import { SignInButton } from "@/components/ui/signin.tsx";
 
 export function LandingNav() {
   return (
@@ -30,14 +31,12 @@ export function LandingNav() {
               Join Our Team
             </Button>
           </Link>
-          <Link to="/">
-            <Button
-              size="lg"
-              className="bg-gradient-to-r from-orange-500 to-amber-500 font-semibold shadow-lg hover:from-orange-600 hover:to-amber-600"
-            >
-              Get Started
-            </Button>
-          </Link>
+          <SignInButton
+            size="lg"
+            signInText="Get Started"
+            showIcon={false}
+            className="bg-gradient-to-r from-orange-500 to-amber-500 font-semibold shadow-lg hover:from-orange-600 hover:to-amber-600"
+          />
         </div>
       </div>
     </nav>
