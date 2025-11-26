@@ -278,36 +278,36 @@ function IndexInner() {
   );
 }
 
+function UnauthenticatedRedirect() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate("/landing");
+  }, [navigate]);
+
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-orange-100 via-amber-100 to-yellow-100 p-4 dark:from-orange-950 dark:via-amber-950 dark:to-yellow-950">
+      <div className="w-full max-w-md space-y-6 text-center">
+        <div className="space-y-4">
+          <img 
+            src="https://cdn.hercules.app/file_n1wHwb8O3RpaBvvNN8Ed9RBI" 
+            alt="Budget Teen Logo" 
+            className="mx-auto size-32 md:size-40"
+          />
+          <p className="text-lg text-orange-700 dark:text-orange-300">
+            Redirecting...
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Index() {
   return (
     <>
       <Unauthenticated>
-        <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-orange-100 via-amber-100 to-yellow-100 p-4 dark:from-orange-950 dark:via-amber-950 dark:to-yellow-950">
-          <div className="w-full max-w-md space-y-6 text-center">
-            <div className="space-y-4">
-              <img 
-                src="https://cdn.hercules.app/file_n1wHwb8O3RpaBvvNN8Ed9RBI" 
-                alt="Budget Teen Logo" 
-                className="mx-auto size-32 md:size-40"
-              />
-              <h1 className="text-4xl font-bold text-orange-900 dark:text-orange-100">
-                Budget Teen
-              </h1>
-              <p className="text-lg text-orange-700 dark:text-orange-300">
-                Track your money, reach your goals, level up your savings! 🚀
-              </p>
-            </div>
-            <div className="space-y-4">
-              <div className="flex justify-center gap-4 text-4xl">
-                <span>🎮</span>
-                <span>📊</span>
-                <span>🎯</span>
-                <span>🏆</span>
-              </div>
-              <SignInButton size="lg" className="w-full text-lg font-bold" />
-            </div>
-          </div>
-        </div>
+        <UnauthenticatedRedirect />
       </Unauthenticated>
       <AuthLoading>
         <div className="flex min-h-screen items-center justify-center">

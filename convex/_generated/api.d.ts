@@ -22,6 +22,7 @@ import type * as gamification from "../gamification.js";
 import type * as goals from "../goals.js";
 import type * as profile from "../profile.js";
 import type * as quiz from "../quiz.js";
+import type * as teamApplications from "../teamApplications.js";
 import type * as transactions from "../transactions.js";
 import type * as users from "../users.js";
 import type * as worlds from "../worlds.js";
@@ -44,6 +45,7 @@ declare const fullApi: ApiFromModules<{
   goals: typeof goals;
   profile: typeof profile;
   quiz: typeof quiz;
+  teamApplications: typeof teamApplications;
   transactions: typeof transactions;
   users: typeof users;
   worlds: typeof worlds;

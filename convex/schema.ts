@@ -129,4 +129,22 @@ export default defineSchema({
     .index("by_user", ["userId"])
     .index("by_user_and_challenge", ["userId", "challengeId"])
     .index("by_user_and_completed", ["userId", "isCompleted"]),
+
+  teamApplications: defineTable({
+    fullName: v.string(),
+    grade: v.string(),
+    gpa: v.string(),
+    socialMediaExperience: v.string(),
+    extracurriculars: v.string(),
+    whyJoin: v.string(),
+    skills: v.string(),
+    email: v.optional(v.string()),
+    submittedAt: v.number(),
+    status: v.union(
+      v.literal("pending"),
+      v.literal("reviewed"),
+      v.literal("accepted"),
+      v.literal("rejected")
+    ),
+  }),
 });
