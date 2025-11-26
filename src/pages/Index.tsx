@@ -38,7 +38,7 @@ function IndexInner() {
   const balance = user.currentBalance;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 pb-20 dark:from-orange-950 dark:via-amber-950 dark:to-yellow-950">
+    <div className="min-h-screen bg-gradient-to-br from-[#FFF5F0] via-[#FFF9F5] to-[#FFFBF7] pb-20 dark:from-orange-950 dark:via-amber-950 dark:to-yellow-950">
       <div className="mx-auto max-w-2xl p-4 md:p-6">
         {/* Header */}
         <div className="mb-6 flex items-center justify-between gap-4">
@@ -286,7 +286,7 @@ function UnauthenticatedRedirect() {
   }, [navigate]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-orange-100 via-amber-100 to-yellow-100 p-4 dark:from-orange-950 dark:via-amber-950 dark:to-yellow-950">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-[#FFF5F0] via-[#FFF9F5] to-[#FFFBF7] p-4 dark:from-orange-950 dark:via-amber-950 dark:to-yellow-950">
       <div className="w-full max-w-md space-y-6 text-center">
         <div className="space-y-4">
           <img 
