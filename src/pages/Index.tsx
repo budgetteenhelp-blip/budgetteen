@@ -38,7 +38,7 @@ function IndexInner() {
   const balance = user.currentBalance;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#FFF5F0] via-[#FFF9F5] to-[#FFFBF7] pb-20 dark:from-orange-950 dark:via-amber-950 dark:to-yellow-950">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 pb-20 dark:from-emerald-950 dark:via-teal-950 dark:to-cyan-950">
       <div className="mx-auto max-w-2xl p-4 md:p-6">
         {/* Header */}
         <div className="mb-6 flex items-center justify-between gap-4">
@@ -49,10 +49,10 @@ function IndexInner() {
               className="size-12"
             />
             <div>
-              <h1 className="text-xl font-bold text-orange-900 dark:text-orange-100 md:text-2xl">
+              <h1 className="text-xl font-bold text-emerald-900 dark:text-emerald-100 md:text-2xl">
                 Hey, {user.name?.split(" ")[0] || "there"}! 👋
               </h1>
-              <p className="text-sm text-orange-700 dark:text-orange-300">
+              <p className="text-sm text-emerald-700 dark:text-emerald-300">
                 {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
               </p>
             </div>
@@ -286,7 +286,7 @@ function UnauthenticatedRedirect() {
   }, [navigate]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-[#FFF5F0] via-[#FFF9F5] to-[#FFFBF7] p-4 dark:from-orange-950 dark:via-amber-950 dark:to-yellow-950">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 p-4 dark:from-emerald-950 dark:via-teal-950 dark:to-cyan-950">
       <div className="w-full max-w-md space-y-6 text-center">
         <div className="space-y-4">
           <img 
@@ -294,7 +294,7 @@ function UnauthenticatedRedirect() {
             alt="Budget Teen Logo" 
             className="mx-auto size-32 md:size-40"
           />
-          <p className="text-lg text-orange-700 dark:text-orange-300">
+          <p className="text-lg text-emerald-700 dark:text-emerald-300">
             Redirecting...
           </p>
         </div>
