@@ -6,7 +6,7 @@ import { TrendingUpIcon, TargetIcon, TrophyIcon, SparklesIcon, GraduationCapIcon
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 dark:from-orange-950 dark:via-amber-950 dark:to-yellow-950">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 dark:from-emerald-950 dark:via-teal-950 dark:to-cyan-950">
       <LandingNav />
 
       {/* Hero Section */}
@@ -18,15 +18,15 @@ export default function LandingPage() {
             className="mx-auto mb-8 size-32 md:size-40"
           />
           
-          <h1 className="mb-6 text-5xl font-bold leading-tight text-orange-900 dark:text-orange-100 md:text-7xl">
+          <h1 className="mb-6 text-5xl font-bold leading-tight text-emerald-900 dark:text-emerald-100 md:text-7xl">
             Master Your Money,
             <br />
-            <span className="bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">
               Level Up Your Life
             </span>
           </h1>
 
-          <p className="mx-auto mb-10 max-w-2xl text-xl text-orange-700 dark:text-orange-300 md:text-2xl">
+          <p className="mx-auto mb-10 max-w-2xl text-xl text-emerald-700 dark:text-emerald-300 md:text-2xl">
             The fun, gamified money management app designed specifically for teens. 
             Track spending, crush savings goals, and learn financial skills that last a lifetime.
           </p>
@@ -36,7 +36,7 @@ export default function LandingPage() {
               size="lg"
               signInText="Make an Account - It's Free! 🚀"
               showIcon={false}
-              className="h-16 bg-gradient-to-r from-orange-500 to-amber-500 px-12 text-xl font-bold shadow-2xl transition-transform hover:scale-105 hover:from-orange-600 hover:to-amber-600"
+              className="h-16 bg-gradient-to-r from-emerald-500 to-teal-500 px-12 text-xl font-bold shadow-2xl transition-transform hover:scale-105 hover:from-emerald-600 hover:to-teal-600"
             />
           </div>
 
@@ -49,14 +49,14 @@ export default function LandingPage() {
       {/* Features Section */}
       <section className="px-4 py-20 md:px-6">
         <div className="mx-auto max-w-6xl">
-          <h2 className="mb-12 text-center text-4xl font-bold text-orange-900 dark:text-orange-100">
+          <h2 className="mb-12 text-center text-4xl font-bold text-emerald-900 dark:text-emerald-100">
             Why Budget Teen?
           </h2>
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            <Card className="border-2 border-orange-200 bg-white/50 backdrop-blur transition-transform hover:scale-105 dark:border-orange-800 dark:bg-gray-900/50">
+            <Card className="border-2 border-emerald-200 bg-white/50 backdrop-blur transition-transform hover:scale-105 dark:border-emerald-800 dark:bg-gray-900/50">
               <CardHeader>
-                <div className="mb-4 flex size-14 items-center justify-center rounded-full bg-gradient-to-r from-orange-500 to-amber-500">
+                <div className="mb-4 flex size-14 items-center justify-center rounded-full bg-gradient-to-r from-emerald-500 to-teal-500">
                   <TrendingUpIcon className="size-7 text-white" />
                 </div>
                 <CardTitle className="text-xl">Track Every Dollar</CardTitle>
@@ -96,9 +96,9 @@ export default function LandingPage() {
               </CardContent>
             </Card>
 
-            <Card className="border-2 border-green-200 bg-white/50 backdrop-blur transition-transform hover:scale-105 dark:border-green-800 dark:bg-gray-900/50">
+            <Card className="border-2 border-teal-200 bg-white/50 backdrop-blur transition-transform hover:scale-105 dark:border-teal-800 dark:bg-gray-900/50">
               <CardHeader>
-                <div className="mb-4 flex size-14 items-center justify-center rounded-full bg-gradient-to-r from-green-500 to-emerald-500">
+                <div className="mb-4 flex size-14 items-center justify-center rounded-full bg-gradient-to-r from-teal-500 to-cyan-500">
                   <GraduationCapIcon className="size-7 text-white" />
                 </div>
                 <CardTitle className="text-xl">Learn Real Skills</CardTitle>
@@ -110,9 +110,9 @@ export default function LandingPage() {
               </CardContent>
             </Card>
 
-            <Card className="border-2 border-yellow-200 bg-white/50 backdrop-blur transition-transform hover:scale-105 dark:border-yellow-800 dark:bg-gray-900/50">
+            <Card className="border-2 border-amber-200 bg-white/50 backdrop-blur transition-transform hover:scale-105 dark:border-amber-800 dark:bg-gray-900/50">
               <CardHeader>
-                <div className="mb-4 flex size-14 items-center justify-center rounded-full bg-gradient-to-r from-yellow-500 to-orange-500">
+                <div className="mb-4 flex size-14 items-center justify-center rounded-full bg-gradient-to-r from-amber-500 to-orange-500">
                   <SparklesIcon className="size-7 text-white" />
                 </div>
                 <CardTitle className="text-xl">Personalized Avatar</CardTitle>
@@ -143,7 +143,7 @@ export default function LandingPage() {
 
       {/* CTA Section */}
       <section className="px-4 py-20 md:px-6">
-        <div className="mx-auto max-w-4xl rounded-3xl bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 p-12 text-center shadow-2xl">
+        <div className="mx-auto max-w-4xl rounded-3xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 p-12 text-center shadow-2xl">
           <h2 className="mb-4 text-4xl font-bold text-white md:text-5xl">
             Ready to Take Control?
           </h2>
@@ -154,7 +154,7 @@ export default function LandingPage() {
             size="lg"
             signInText="Create Your Free Account"
             showIcon={false}
-            className="h-16 bg-white px-12 text-xl font-bold text-orange-600 shadow-xl transition-transform hover:scale-105 hover:bg-gray-50"
+            className="h-16 bg-white px-12 text-xl font-bold text-emerald-600 shadow-xl transition-transform hover:scale-105 hover:bg-gray-50"
           />
         </div>
       </section>
@@ -169,7 +169,7 @@ export default function LandingPage() {
                 alt="Budget Teen Logo"
                 className="size-10"
               />
-              <span className="text-xl font-bold text-orange-600">Budget Teen</span>
+              <span className="text-xl font-bold text-emerald-600">Budget Teen</span>
             </div>
             <div className="flex gap-6">
               <Link to="/about" className="text-muted-foreground hover:text-foreground">

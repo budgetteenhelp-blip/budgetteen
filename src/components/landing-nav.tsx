@@ -12,7 +12,7 @@ export function LandingNav() {
             alt="Budget Teen Logo"
             className="size-10"
           />
-          <span className="text-xl font-bold text-orange-600">Budget Teen</span>
+          <span className="text-xl font-bold text-emerald-600">Budget Teen</span>
         </Link>
 
         <div className="flex items-center gap-6">
@@ -35,7 +35,7 @@ export function LandingNav() {
             size="lg"
             signInText="Get Started"
             showIcon={false}
-            className="bg-gradient-to-r from-orange-500 to-amber-500 font-semibold shadow-lg hover:from-orange-600 hover:to-amber-600"
+            className="bg-gradient-to-r from-emerald-500 to-teal-500 font-semibold shadow-lg hover:from-emerald-600 hover:to-teal-600"
           />
         </div>
       </div>
