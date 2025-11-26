@@ -76,25 +76,11 @@ export const submitApplication = mutation({
   },
 });
 
-export const getAllApplications = query({
-  args: {},
-  handler: async (ctx) => {
-    const identity = await ctx.auth.getUserIdentity();
-    
-    // Only allow authenticated users to view applications
-    // In a real app, you'd want to check for admin privileges
-    if (!identity) {
-      throw new ConvexError({
-        message: "Must be logged in to view applications",
-        code: "UNAUTHENTICATED",
-      });
-    }
-
-    const applications = await ctx.db
-      .query("teamApplications")
-      .order("desc")
-      .collect();
-
-    return applications;
-  },
-});
+// SECURITY: This function is intentionally removed to prevent unauthorized access
+// Team applications contain sensitive personal information and should only be
+// accessible via email notifications sent to budgetteen.help@gmail.com
+// or through the Hercules Database tab (which requires project owner access).
+//
+// If you need to query applications programmatically in the future, implement
+// proper role-based access control (RBAC) to verify admin privileges before
+// allowing access to this sensitive data.
